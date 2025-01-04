@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TileGridGenerator : MonoBehaviour
@@ -7,6 +8,8 @@ public class TileGridGenerator : MonoBehaviour
     public int columns = 5;
     public int layers = 1;
     public float tileSpacing = 0.1f;
+
+    private List<KeyValuePair<int, ITile>> tiles = new List<KeyValuePair<int, ITile>>();
 
     void Start()
     {
@@ -37,11 +40,19 @@ public class TileGridGenerator : MonoBehaviour
                     0
                 );
 
-                GameObject tile = Instantiate(tilePrefab, tilePosition, Quaternion.identity, transform);
-                tile.TryGetComponent<SpriteRenderer>(out SpriteRenderer tileSpriteRenderer);
-                tileSpriteRenderer.sortingOrder += layer;
+                GameObject tileObj = Instantiate(tilePrefab, tilePosition, Quaternion.identity, transform);
 
-                tile.name = $"Tile_{x}_{y}";
+                tileObj.TryGetComponent<ITile>(out ITile tile);
+                tiles.Add(new KeyValuePair<int, ITile>(layer, tile));
+
+                tile.SetLayer(layer);
+                if (layer + 1 != layers)
+                {
+                    tile.SetTileState(false);
+                }
+
+
+                tileObj.name = $"Tile_{x}_{y}";
             }
         }
     }
