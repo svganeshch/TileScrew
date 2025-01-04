@@ -3,9 +3,11 @@
 public class Tile : MonoBehaviour, ITile
 {
     public Color disabledColor;
-    public bool state;
 
     private SpriteRenderer spriteRenderer;
+    private bool state = true;
+
+    public bool State { get => state; set => state = value; }
 
     private void Awake()
     {

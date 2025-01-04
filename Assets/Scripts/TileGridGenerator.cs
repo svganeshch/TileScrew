@@ -8,6 +8,7 @@ public class TileGridGenerator : MonoBehaviour
     public int columns = 5;
     public int layers = 1;
     public float tileSpacing = 0.1f;
+    public float layerSpacing = -0.25f;
 
     private List<KeyValuePair<int, ITile>> tiles = new List<KeyValuePair<int, ITile>>();
 
@@ -37,7 +38,7 @@ public class TileGridGenerator : MonoBehaviour
                 Vector3 tilePosition = new Vector3(
                     startPosX + x * (1 + tileSpacing),
                     startPosY - y * (1 + tileSpacing),
-                    0
+                    layer * layerSpacing
                 );
 
                 GameObject tileObj = Instantiate(tilePrefab, tilePosition, Quaternion.identity, transform);
