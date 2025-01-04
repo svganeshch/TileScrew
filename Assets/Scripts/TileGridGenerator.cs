@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class TileGridGenerator : MonoBehaviour
 {
+    public GameObject tileLayerPrefab;
     public GameObject tilePrefab;
     public int rows = 5;
     public int columns = 5;
@@ -19,11 +21,22 @@ public class TileGridGenerator : MonoBehaviour
             var layerRows = rows - i;
             var layerColumns = columns - i;
 
-            GenerateGrid(layerRows, layerColumns, i);
+            var layerObj = CreateTileRendererLayer(i);
+            GenerateGrid(layerRows, layerColumns, i, layerObj);
         }
     }
 
-    void GenerateGrid(int rows, int columns, int layer)
+    private GameObject CreateTileRendererLayer(int layerNum)
+    {
+        GameObject tileLayerObj = Instantiate(tileLayerPrefab, transform);
+        tileLayerObj.name = "Layer " + layerNum;
+
+        tileLayerObj.GetComponent<SortingGroup>().sortingOrder = layerNum;
+
+        return tileLayerObj;
+    }
+
+    void GenerateGrid(int rows, int columns, int layerNum, GameObject layerParentObj)
     {
         float totalWidth = (columns - 1) * (1 + tileSpacing);
         float totalHeight = (rows - 1) * (1 + tileSpacing);
@@ -38,16 +51,16 @@ public class TileGridGenerator : MonoBehaviour
                 Vector3 tilePosition = new Vector3(
                     startPosX + x * (1 + tileSpacing),
                     startPosY - y * (1 + tileSpacing),
-                    layer * layerSpacing
+                    layerNum * layerSpacing
                 );
 
-                GameObject tileObj = Instantiate(tilePrefab, tilePosition, Quaternion.identity, transform);
+                GameObject tileObj = Instantiate(tilePrefab, tilePosition, Quaternion.identity, layerParentObj.transform);
 
                 tileObj.TryGetComponent<ITile>(out ITile tile);
-                tiles.Add(new KeyValuePair<int, ITile>(layer, tile));
+                tiles.Add(new KeyValuePair<int, ITile>(layerNum, tile));
 
-                tile.SetLayer(layer);
-                if (layer + 1 != layers)
+                //tile.SetLayer(layerNum);
+                if (layerNum + 1 != layers)
                 {
                     tile.SetTileState(false);
                 }
