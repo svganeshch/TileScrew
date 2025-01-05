@@ -711,6 +711,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileLayerPrefab: {fileID: 2338530380130649201, guid: cf619e9b4e3390b4b95c10f2f8ebd461, type: 3}
+  tileLayer:
+    serializedVersion: 2
+    m_Bits: 64
   tileSpacing: 0.15
   layerSpacing: -0.25
 --- !u!1 &1568815871
@@ -793,7 +796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - {fileID: 11400000, guid: f7ea7d37a13d5c4488332a31aeec0402, type: 2}
+  - {fileID: 11400000, guid: 75c29ec86655c2a40bc809cb6581690f, type: 2}
   currentLevelIndex: 0
   currentLevelData: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

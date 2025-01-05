@@ -31,14 +31,9 @@ public class InputHandler : MonoBehaviour
             {
                 //Debug.Log("hit : " + hit.collider.gameObject.name);
 
-                if (hit.collider.gameObject.TryGetComponent<ITile>(out ITile tile))
+                if (hit.collider.gameObject.TryGetComponent<ITouch>(out ITouch touchObj))
                 {
-                    Debug.Log("obatined tile : " + hit.collider.gameObject.name);
-
-                    if (!tile.State)
-                    {
-                        Debug.Log("Tile cannot be picked!!");
-                    }
+                    touchObj.OnTouch();
                 }
             }
         }

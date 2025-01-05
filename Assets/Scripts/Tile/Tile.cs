@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
-public class Tile : MonoBehaviour, ITile
+public class Tile : MonoBehaviour, ITile, ITouch
 {
     public Color disabledColor;
 
+    private Screw screw;
     private SpriteRenderer spriteRenderer;
     private bool state = true;
 
@@ -11,6 +12,7 @@ public class Tile : MonoBehaviour, ITile
 
     private void Awake()
     {
+        screw = GetComponentInChildren<Screw>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -31,5 +33,10 @@ public class Tile : MonoBehaviour, ITile
         }
 
         state = tileState;
+    }
+
+    public void OnTouch()
+    {
+        if (!state) return;
     }
 }

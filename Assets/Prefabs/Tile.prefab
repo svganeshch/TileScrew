@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4658758326509655419}
   - component: {fileID: 6329780529468260265}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: screw_base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 4606793626942704145}
   - component: {fileID: 5559162075364878141}
   - component: {fileID: 8917268809651251077}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9150786273297899946}
   - component: {fileID: 7184911437786337600}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: screw_shine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5294164037873783975}
   - component: {fileID: 2703956642370223134}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: screw_top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,7 +422,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3041247387416785785}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Screw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
