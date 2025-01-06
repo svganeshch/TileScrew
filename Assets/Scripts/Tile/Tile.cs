@@ -3,8 +3,8 @@
 public class Tile : MonoBehaviour, ITile, ITouch
 {
     public Color disabledColor;
+    public Screw screw;
 
-    private Screw screw;
     private SpriteRenderer spriteRenderer;
     private bool state = true;
 

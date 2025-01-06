@@ -18,4 +18,9 @@ MonoBehaviour:
   reducedRows: 0
   reducedColumns: 0
   tilePrefab: {fileID: 4161647048256823549, guid: b70657e4d0353c74cad119a184b30b20, type: 3}
-  tileColors: []
+  tileColorData:
+  - {fileID: 11400000, guid: 724c0daa1aa63874ea47d6d6ac7ca313, type: 2}
+  - {fileID: 11400000, guid: c0a1f88eb530cce41b95679b09ddbbe0, type: 2}
+  - {fileID: 11400000, guid: e5cd8655d73836040ab95ed802df4126, type: 2}
+  - {fileID: 11400000, guid: 742f07b351d21474e9de15e544ee6675, type: 2}
+  - {fileID: 11400000, guid: 62d5e59f214844f4f9cbf22133683f1d, type: 2}

@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db430c92cc36f77409fbae5ee763dcef, type: 3}
-  m_Name: Level 6
+  m_Script: {fileID: 11500000, guid: 0d5b75d25818f694aa0d3fdf87cf35c7, type: 3}
+  m_Name: Blue_D
   m_EditorClassIdentifier: 
-  rows: 4
-  columns: 3
-  layers: 2
-  reducedRows: 1
-  reducedColumns: 1
-  tilePrefab: {fileID: 4161647048256823549, guid: b70657e4d0353c74cad119a184b30b20, type: 3}
+  color: {r: 0.1273585, g: 0.22570352, b: 1, a: 1}

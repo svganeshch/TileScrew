@@ -18,4 +18,4 @@ MonoBehaviour:
   reducedRows: 1
   reducedColumns: 1
   tilePrefab: {fileID: 4161647048256823549, guid: b70657e4d0353c74cad119a184b30b20, type: 3}
-  tileColors: []
+  tileColorData: []

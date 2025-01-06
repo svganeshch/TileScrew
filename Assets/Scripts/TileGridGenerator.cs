@@ -55,11 +55,12 @@ public class TileGridGenerator : MonoBehaviour
 
         AdjustTileCount(levelData.tilePrefab);
         MarkBlockedTiles();
+        GenerateScrews(levelData);
     }
 
     private void AdjustTileCount(GameObject tilePrefab)
     {
-        int totalTileCount = tiles.Count;
+        int totalTileCount = GetTotalTileCount();
         int remainder = totalTileCount % 3;
 
         if (remainder == 0) return;
@@ -120,6 +121,47 @@ public class TileGridGenerator : MonoBehaviour
         }
     }
 
+    private void GenerateScrews(LevelData levelData)
+    {
+        List<Color> screwColors = GenerateScrewColorGroups(levelData);
+        int colorIndex = 0;
+
+        foreach (var layerTiles in tiles)
+        {
+            var tileList = layerTiles.Value;
+
+            foreach (var tile in tileList)
+            {
+                tile.screw.SetColor(screwColors[colorIndex]);
+                colorIndex++;
+            }
+        }
+    }
+
+    private List<Color> GenerateScrewColorGroups(LevelData levelData)
+    {
+        var colorData = GameManager.Instance.levelManager.colorData;
+        List<Color> screwColors = new List<Color>();
+        int totalTiles = GetTotalTileCount();
+
+        int tileGroups = totalTiles / 3;
+
+        for (int i = 0; i < tileGroups; i++)
+        {
+            Color color = colorData[Random.Range(0, colorData.Length)].color;
+
+            for (int j = 0; j < 3; j++)
+            {
+                screwColors.Add(color);
+            }
+        }
+
+        Utils.ShuffleList(ref screwColors);
+
+        return screwColors;
+    }
+
+
     private GameObject CreateTileRendererLayer(int layerNum)
     {
         GameObject tileLayerObj = Instantiate(tileLayerPrefab, transform);
@@ -146,5 +188,17 @@ public class TileGridGenerator : MonoBehaviour
                 Gizmos.DrawWireCube(tileBoxPos, tile.gameObject.transform.localScale);
             }
         }
+    }
+
+    private int GetTotalTileCount()
+    {
+        int totalTiles = 0;
+
+        foreach (var layerTiles in tiles)
+        {
+            totalTiles += layerTiles.Value.Count;
+        }
+
+        return totalTiles;
     }
 }

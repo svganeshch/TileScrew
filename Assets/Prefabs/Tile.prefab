@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disabledColor: {r: 0.6627451, g: 0.6627451, b: 0.6627451, a: 1}
+  screw: {fileID: 0}
 --- !u!65 &5559162075364878141
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -422,6 +423,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3041247387416785785}
+  - component: {fileID: 3375746950457394218}
   m_Layer: 6
   m_Name: Screw
   m_TagString: Untagged
@@ -447,3 +449,16 @@ Transform:
   - {fileID: 9150786273297899946}
   m_Father: {fileID: 1044385714681002311}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3375746950457394218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7190761986188443115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486341784b1fce14eb8444829f5f7aa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screwBaseRenderer: {fileID: 6329780529468260265}

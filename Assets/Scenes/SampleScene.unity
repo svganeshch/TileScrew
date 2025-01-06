@@ -797,6 +797,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 11400000, guid: 75c29ec86655c2a40bc809cb6581690f, type: 2}
+  colorData:
+  - {fileID: 11400000, guid: 724c0daa1aa63874ea47d6d6ac7ca313, type: 2}
+  - {fileID: 11400000, guid: c0a1f88eb530cce41b95679b09ddbbe0, type: 2}
+  - {fileID: 11400000, guid: e5cd8655d73836040ab95ed802df4126, type: 2}
+  - {fileID: 11400000, guid: 742f07b351d21474e9de15e544ee6675, type: 2}
+  - {fileID: 11400000, guid: 62d5e59f214844f4f9cbf22133683f1d, type: 2}
   currentLevelIndex: 0
   currentLevelData: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

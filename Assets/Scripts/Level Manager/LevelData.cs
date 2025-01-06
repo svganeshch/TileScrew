@@ -11,5 +11,4 @@ public class LevelData : ScriptableObject
     public bool reducedColumns = false;
 
     public GameObject tilePrefab;
-    public Color[] tileColors;
 }
