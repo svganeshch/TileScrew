@@ -14,99 +14,51 @@ public class TileGridGenerator : MonoBehaviour
 
     public void GenerateGrid(LevelData levelData)
     {
+        int layer = Mathf.Max(tiles.Count, 0);
         float levelRows = levelData.rows;
         float levelColumns = levelData.columns;
 
-        for (int i = 0; i <= levelData.layers; i++)
+        GameObject layerRendererObj = CreateTileRendererLayer(layer);
+        float layerRows = (levelData.reducedRows) ? levelRows - layer : levelRows;
+        float layerColumns = (levelData.reducedColumns) ? levelColumns - layer : levelColumns;
+
+        float totalWidth = (layerColumns - 1) * (1 + tileSpacing);
+        float totalHeight = (layerRows - 1) * (1 + tileSpacing);
+
+        float startPosX = -totalWidth / 2f;
+        float startPosY = totalHeight / 2f;
+
+        List<Tile> layerTiles = new List<Tile>();
+
+        for (int y = 0; y < layerRows; y++)
         {
-            GameObject layerRendererObj = CreateTileRendererLayer(i);
-            float layerRows = (levelData.reducedRows) ? levelRows - i : levelRows;
-            float layerColumns = (levelData.reducedColumns) ? levelColumns - i : levelColumns;
-
-            float totalWidth = (layerColumns - 1) * (1 + tileSpacing);
-            float totalHeight = (layerRows - 1) * (1 + tileSpacing);
-
-            float startPosX = -totalWidth / 2f;
-            float startPosY = totalHeight / 2f;
-
-            List<Tile> layerTiles = new List<Tile>();
-
-            for (int y = 0; y < layerRows; y++)
+            for (int x = 0; x < layerColumns; x++)
             {
-                for (int x = 0; x < layerColumns; x++)
-                {
-                    Vector3 tilePosition = new Vector3(
-                        startPosX + x * (1 + tileSpacing),
-                        startPosY - y * (1 + tileSpacing),
-                        i * layerSpacing
-                    );
+                Vector3 tilePosition = new Vector3(
+                    startPosX + x * (1 + tileSpacing),
+                    startPosY - y * (1 + tileSpacing),
+                    layer * layerSpacing
+                );
 
-                    GameObject tileObj = Instantiate(levelData.tilePrefab, tilePosition, Quaternion.identity, layerRendererObj.transform);
+                GameObject tileObj = Instantiate(levelData.tilePrefab, tilePosition, Quaternion.identity, layerRendererObj.transform);
 
-                    tileObj.TryGetComponent<Tile>(out Tile tile);
-                    tile.tileLayer = i;
-                    layerTiles.Add(tile);
+                tileObj.TryGetComponent<Tile>(out Tile tile);
+                tile.tileLayer = layer;
+                layerTiles.Add(tile);
 
-                    tileObj.name = $"Tile_{x}_{y}";
-                }
+                tileObj.name = $"Tile_{x}_{y}";
             }
-
-            tiles.Add(i, layerTiles);
         }
 
-        AdjustTileCount(levelData.tilePrefab);
-        GenerateScrews(levelData);
+        tiles.Add(layer, layerTiles);
 
-        for (int i = 0; i < tiles.Count; i++)
-        {
-            UpdateTilesStatus(i);
-        }
-    }
-
-    private void AdjustTileCount(GameObject tilePrefab)
-    {
-        int totalTileCount = GetTotalTileCount();
-        int remainder = totalTileCount % 3;
-
-        if (remainder == 0) return;
-
-        int tilesToAdd = 3 - remainder;
-        AddAdjustmentLayer(tilesToAdd, tilePrefab);
-
-        Debug.Log($"Added Adjustment Layer with {tilesToAdd} tile(s) to ensure divisibility by 3.");
-    }
-
-    private void AddAdjustmentLayer(int tileCount, GameObject tilePrefab)
-    {
-        int adjustmentLayerNum = tiles.Count > 0 ? tiles.Count : 0;
-        GameObject adjustmentLayerObj = CreateTileRendererLayer(adjustmentLayerNum);
-
-        float startPosX = -(tileCount - 1) * (1 + tileSpacing) / 2f;
-
-        List<Tile> tilesToAdd = new List<Tile>();
-
-        for (int i = 0; i < tileCount; i++)
-        {
-            Vector3 tilePosition = new Vector3(
-                startPosX + i * (1 + tileSpacing),
-                0,
-                adjustmentLayerNum * layerSpacing
-            );
-
-            GameObject tileObj = Instantiate(tilePrefab, tilePosition, Quaternion.identity, adjustmentLayerObj.transform);
-
-            tileObj.TryGetComponent<Tile>(out Tile tile);
-            tile.tileLayer = adjustmentLayerNum;
-            tilesToAdd.Add(tile);
-
-            tileObj.name = $"AdjustmentTile_{i}";
-        }
-
-        tiles.Add(adjustmentLayerNum, tilesToAdd);
+        UpdateTilesStatus(layer - 1);
     }
 
     private void UpdateTilesStatus(int layer)
     {
+        if (layer < 0) return;
+
         var layerTiles = tiles[layer];
 
         foreach (var tile in layerTiles)
@@ -131,16 +83,14 @@ public class TileGridGenerator : MonoBehaviour
 
     public void OnTileRemoved(Tile removedTile)
     {
-        if (removedTile.tileLayer == 0) return;
-
         int layerBelowTile = removedTile.tileLayer - 1;
 
         UpdateTilesStatus(layerBelowTile);
     }
 
-    private void GenerateScrews(LevelData levelData)
+    public void GenerateScrews()
     {
-        List<Color> screwColors = GenerateScrewColorGroups(levelData);
+        List<Color> screwColors = GenerateScrewColorGroups();
         int colorIndex = 0;
 
         foreach (var layerTiles in tiles)
@@ -155,7 +105,7 @@ public class TileGridGenerator : MonoBehaviour
         }
     }
 
-    private List<Color> GenerateScrewColorGroups(LevelData levelData)
+    private List<Color> GenerateScrewColorGroups()
     {
         var colorData = GameManager.Instance.levelManager.colorData;
         List<Color> screwColors = new List<Color>();
@@ -207,7 +157,7 @@ public class TileGridGenerator : MonoBehaviour
         }
     }
 
-    private int GetTotalTileCount()
+    public int GetTotalTileCount()
     {
         int totalTiles = 0;
 
