@@ -44,6 +44,7 @@ public class TileGridGenerator : MonoBehaviour
                     GameObject tileObj = Instantiate(levelData.tilePrefab, tilePosition, Quaternion.identity, layerRendererObj.transform);
 
                     tileObj.TryGetComponent<Tile>(out Tile tile);
+                    tile.tileLayer = i;
                     layerTiles.Add(tile);
 
                     tileObj.name = $"Tile_{x}_{y}";
@@ -54,8 +55,12 @@ public class TileGridGenerator : MonoBehaviour
         }
 
         AdjustTileCount(levelData.tilePrefab);
-        MarkBlockedTiles();
         GenerateScrews(levelData);
+
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            UpdateTilesStatus(i);
+        }
     }
 
     private void AdjustTileCount(GameObject tilePrefab)
@@ -91,6 +96,7 @@ public class TileGridGenerator : MonoBehaviour
             GameObject tileObj = Instantiate(tilePrefab, tilePosition, Quaternion.identity, adjustmentLayerObj.transform);
 
             tileObj.TryGetComponent<Tile>(out Tile tile);
+            tile.tileLayer = adjustmentLayerNum;
             tilesToAdd.Add(tile);
 
             tileObj.name = $"AdjustmentTile_{i}";
@@ -99,26 +105,37 @@ public class TileGridGenerator : MonoBehaviour
         tiles.Add(adjustmentLayerNum, tilesToAdd);
     }
 
-    private void MarkBlockedTiles()
+    private void UpdateTilesStatus(int layer)
     {
-        foreach (var layerTiles in tiles)
+        var layerTiles = tiles[layer];
+
+        foreach (var tile in layerTiles)
         {
-            var tiles = layerTiles.Value;
+            Vector3 tileBoxPos = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z + -0.5f);
+            Collider[] colliders = Physics.OverlapBox(tileBoxPos, tile.gameObject.transform.localScale / 2, Quaternion.identity, tileLayer);
 
-            foreach (var tile in tiles)
+            foreach (Collider collider in colliders)
             {
-                Vector3 tileBoxPos = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z + -0.5f);
-                Collider[] colliders = Physics.OverlapBox(tileBoxPos, tile.gameObject.transform.localScale / 2, Quaternion.identity, tileLayer);
+                if (collider.gameObject == tile.gameObject) continue;
 
-                foreach (Collider collider in colliders)
-                {
-                    if (collider.gameObject == tile.gameObject) continue;
+                tile.SetTileState(false);
+                //Debug.Log(tile.gameObject.name + " has hit : " + collider.name);
+            }
 
-                    tile.SetTileState(false);
-                    //Debug.Log(tile.gameObject.name + " has hit : " + collider.name);
-                }
+            if (colliders.Length <= 1) // Checking against 1 since they're colliding with self for some reason
+            {
+                tile.SetTileState(true);
             }
         }
+    }
+
+    public void OnTileRemoved(Tile removedTile)
+    {
+        if (removedTile.tileLayer == 0) return;
+
+        int layerBelowTile = removedTile.tileLayer - 1;
+
+        UpdateTilesStatus(layerBelowTile);
     }
 
     private void GenerateScrews(LevelData levelData)
