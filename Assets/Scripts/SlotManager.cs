@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class SlotManager : MonoBehaviour
 {
     private List<ISlot> slots;
+    private List<int> matchingSlotIndexs = new List<int>();
 
     private void Awake()
     {
@@ -27,7 +29,9 @@ public class SlotManager : MonoBehaviour
 
             ShiftSlots(insertIndex);
 
-            slots[insertIndex].SetSlotPosition(screw, validateOnComplete:ValidateSlots);
+            bool willCauseMatch = CheckForMatch(insertIndex, screw);
+
+            slots[insertIndex].SetSlotPosition(screw, OnCompleteCallback: willCauseMatch ? HandleMatchingSlotGroupsCallback : null);
         }
         else
         {
@@ -35,7 +39,7 @@ public class SlotManager : MonoBehaviour
             {
                 if (slots[i].slotScrew == null)
                 {
-                    slots[i].SetSlotPosition(screw, validateOnComplete:ValidateSlots);
+                    slots[i].SetSlotPosition(screw);
                     break;
                 }
             }
@@ -54,6 +58,31 @@ public class SlotManager : MonoBehaviour
             slots[insertIndex + 1].SetSlotPosition(slots[insertIndex].slotScrew, true);
             slots[insertIndex].slotScrew = null;
         }
+    }
+
+    private bool CheckForMatch(int insertIndex, Screw screw)
+    {
+        var originalScrew = slots[insertIndex].slotScrew;
+        slots[insertIndex].slotScrew = screw;
+
+        for (int i = 0; i < slots.Count - 2; i++)
+        {
+            if (slots[i].slotScrew != null &&
+                slots[i + 1].slotScrew != null &&
+                slots[i + 2].slotScrew != null &&
+                slots[i].slotScrew.ScrewColor == slots[i + 1].slotScrew.ScrewColor &&
+                slots[i].slotScrew.ScrewColor == slots[i + 2].slotScrew.ScrewColor)
+            {
+                matchingSlotIndexs.Add(i);
+                matchingSlotIndexs.Add(i + 1);
+                matchingSlotIndexs.Add(i + 2);
+
+                return true;
+            }
+        }
+
+        slots[insertIndex].slotScrew = originalScrew;
+        return false;     
     }
 
     private void RearrangeSlots()
@@ -78,35 +107,13 @@ public class SlotManager : MonoBehaviour
         //Debug.Log("Slots rearranged after removing matched groups");
     }
 
-    private void ValidateSlots()
+    private void HandleMatchingSlotGroupsCallback()
     {
-        for (int i = 0; i < slots.Count - 2; i++)
+        foreach (int matchingIndex in matchingSlotIndexs)
         {
-            if (slots[i].slotScrew != null &&
-                slots[i + 1].slotScrew != null &&
-                slots[i + 2].slotScrew != null &&
-                slots[i].slotScrew.ScrewColor == slots[i + 1].slotScrew.ScrewColor &&
-                slots[i].slotScrew.ScrewColor == slots[i + 2].slotScrew.ScrewColor)
-            {
-                //Debug.Log($"Found 3 screws of color {slots[i].slotScrew.ScrewColor} at slots {i}, {i + 1}, {i + 2}");
-
-                HandleMatchingSlotGroups(i, i + 1, i + 2);
-            }
+            Destroy(slots[matchingIndex].slotScrew.gameObject, 0.25f);
+            slots[matchingIndex].slotScrew = null;
         }
-    }
-
-    private void HandleMatchingSlotGroups(int index1, int index2, int index3)
-    {
-        for (int i = 0; i < slots.Count; i++)
-        {
-            if (i == index1 || i == index2 || i == index3)
-            {
-                Destroy(slots[i].slotScrew.gameObject, 0.25f);
-                slots[i].slotScrew = null;
-            }
-        }
-
-        //Debug.Log($"Removed screws from slots {index1}, {index2}, {index3}");
 
         RearrangeSlots();
     }

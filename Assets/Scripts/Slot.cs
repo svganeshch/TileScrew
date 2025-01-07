@@ -11,7 +11,7 @@ public class Slot : MonoBehaviour, ISlot
     private Screw _slotScrew;
     public Screw slotScrew { get => _slotScrew; set => _slotScrew = value; }
 
-    public void SetSlotPosition(Screw screw, bool isShift = false, Action validateOnComplete = null)
+    public void SetSlotPosition(Screw screw, bool isShift = false, Action OnCompleteCallback = null)
     {
         if (isShift)
         {
@@ -24,7 +24,7 @@ public class Slot : MonoBehaviour, ISlot
 
         screw.transform.DOMove(transform.position, transistionSpeed)
             .SetEase(Ease.InQuad)
-            .OnComplete(() => validateOnComplete?.Invoke());
+            .OnComplete(() => OnCompleteCallback?.Invoke());
 
         _slotScrew = screw;
     }

@@ -72,5 +72,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # My List
+/.utmp/*
 /Assets/ThirdPartyAssets/
 log.txt
