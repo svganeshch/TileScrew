@@ -1,7 +1,8 @@
+using System;
+
 public interface ISlot
 {
     public Screw slotScrew { get; set; }
 
-    public void SetSlotPosition(Screw screw);
-    public void ShiftSlotPosition(Screw screw);
+    public void SetSlotPosition(Screw screw, bool isShift = false, Action validateOnComplete = null);
 }
