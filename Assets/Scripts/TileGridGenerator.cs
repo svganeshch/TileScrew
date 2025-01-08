@@ -168,4 +168,19 @@ public class TileGridGenerator : MonoBehaviour
 
         return totalTiles;
     }
+
+    public void ClearGrid()
+    {
+        foreach (var layer in tiles)
+        {
+            var layerTiles = layer.Value;
+
+            foreach (var tile in layerTiles)
+            {
+                Destroy(tile.gameObject);
+            }
+        }
+
+        tiles.Clear();
+    }
 }

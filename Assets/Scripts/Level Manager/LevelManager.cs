@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
             tileGridGenerator.GenerateGrid(GetCurrentLevelData());
         }
 
+        currentLevelData = levels[currentLevelIndex];
         ValidateLevel(tileGridGenerator);
         tileGridGenerator.GenerateScrews();
     }
@@ -44,6 +45,12 @@ public class LevelManager : MonoBehaviour
         tileGridGenerator.GenerateGrid(adjustMentLayerData);
 
         Debug.Log($"Added Adjustment Layer with {tilesToAdd} tile(s) to ensure divisibility by 3.");
+    }
+
+    public void GenerateNextLevel(TileGridGenerator tileGridGenerator)
+    {
+        currentLevelIndex++;
+        GenerateLevel(tileGridGenerator);
     }
 
     public LevelData GetCurrentLevelData()

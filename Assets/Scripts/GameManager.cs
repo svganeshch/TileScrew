@@ -24,4 +24,10 @@ public class GameManager : MonoBehaviour
     {
         levelManager.GenerateLevel(tileGridGenerator);
     }
+
+    public void NextLevel()
+    {
+        tileGridGenerator.ClearGrid();
+        levelManager.GenerateNextLevel(tileGridGenerator);
+    }
 }
