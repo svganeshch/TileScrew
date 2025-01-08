@@ -11,7 +11,7 @@ public class Slot : MonoBehaviour, ISlot
     private Screw _slotScrew;
     public Screw slotScrew { get => _slotScrew; set => _slotScrew = value; }
 
-    public void SetSlotPosition(Screw screw, bool isShift = false, Action OnCompleteCallback = null)
+    public Tween SetSlotPositionTween(Screw screw, bool isShift = false, Action OnCompleteCallback = null)
     {
         if (isShift)
         {
@@ -22,10 +22,12 @@ public class Slot : MonoBehaviour, ISlot
             transistionSpeed = moveSpeed;
         }
 
-        screw.transform.DOMove(transform.position, transistionSpeed)
-            .SetEase(Ease.InQuad)
-            .OnComplete(() => OnCompleteCallback?.Invoke());
+        Tween moveTween = screw.transform.DOMove(transform.position, transistionSpeed)
+                                .SetEase(Ease.InQuad)
+                                .OnComplete(() => OnCompleteCallback?.Invoke());
 
         _slotScrew = screw;
+
+        return moveTween;
     }
 }

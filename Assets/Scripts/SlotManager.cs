@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,8 @@ public class SlotManager : MonoBehaviour
 {
     private List<ISlot> slots;
     private List<int> matchingSlotIndexs = new List<int>();
+
+    private Sequence shiftSequence;
 
     private void Awake()
     {
@@ -31,7 +34,7 @@ public class SlotManager : MonoBehaviour
 
             bool willCauseMatch = CheckForMatch(insertIndex, screw);
 
-            slots[insertIndex].SetSlotPosition(screw, OnCompleteCallback: willCauseMatch ? HandleMatchingSlotGroupsCallback : null);
+            slots[insertIndex].SetSlotPositionTween(screw, OnCompleteCallback: willCauseMatch ? HandleMatchingSlotGroupsCallback : null);
         }
         else
         {
@@ -39,7 +42,7 @@ public class SlotManager : MonoBehaviour
             {
                 if (slots[i].slotScrew == null)
                 {
-                    slots[i].SetSlotPosition(screw);
+                    slots[i].SetSlotPositionTween(screw);
                     break;
                 }
             }
@@ -50,14 +53,20 @@ public class SlotManager : MonoBehaviour
 
     private void ShiftSlots(int insertIndex)
     {
+        shiftSequence = DOTween.Sequence();
+
         while (slots[insertIndex].slotScrew != null)
         {
             if (slots[insertIndex + 1].slotScrew != null)
                 ShiftSlots(insertIndex + 1);
 
-            slots[insertIndex + 1].SetSlotPosition(slots[insertIndex].slotScrew, true);
+            Tween shiftTween = slots[insertIndex + 1].SetSlotPositionTween(slots[insertIndex].slotScrew, true);
             slots[insertIndex].slotScrew = null;
+
+            shiftSequence.Append(shiftTween);
         }
+
+        shiftSequence.OnComplete(() => Debug.Log("shift sequence done duh!!"));
     }
 
     private bool CheckForMatch(int insertIndex, Screw screw)
@@ -82,7 +91,7 @@ public class SlotManager : MonoBehaviour
         }
 
         slots[insertIndex].slotScrew = originalScrew;
-        return false;     
+        return false;
     }
 
     private void RearrangeSlots()
@@ -95,7 +104,7 @@ public class SlotManager : MonoBehaviour
                 {
                     if (slots[j].slotScrew != null)
                     {
-                        slots[i].SetSlotPosition(slots[j].slotScrew, true);
+                        slots[i].SetSlotPositionTween(slots[j].slotScrew, true);
                         slots[j].slotScrew = null;
 
                         break;
@@ -115,6 +124,7 @@ public class SlotManager : MonoBehaviour
             slots[matchingIndex].slotScrew = null;
         }
 
+        matchingSlotIndexs.Clear();
         RearrangeSlots();
     }
 }

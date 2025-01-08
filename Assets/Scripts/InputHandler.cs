@@ -6,22 +6,26 @@ public class InputHandler : MonoBehaviour
     PlayerInput playerInput;
 
     InputAction touchPositionAction;
+    InputAction touchPressAction;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
 
         touchPositionAction = playerInput.actions["TouchPosition"];
+        touchPressAction = playerInput.actions["TouchPress"];
     }
 
     private void Start()
     {
-        touchPositionAction.performed += OnTouchPositionAction;
+        touchPressAction.performed += TouchPress;
     }
 
-    private void OnTouchPositionAction(InputAction.CallbackContext ctx)
+    private void TouchPress(InputAction.CallbackContext ctx)
     {
-        Vector2 touchPosition = ctx.ReadValue<Vector2>();
+        Vector2 touchPosition = touchPositionAction.ReadValue<Vector2>();
+
+        //Debug.Log("touch tap pos : " + touchPosition);
 
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
 
