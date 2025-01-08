@@ -40,11 +40,10 @@ public class Tile : MonoBehaviour, ITile, ITouch
     {
         if (!state) return;
 
-        GameManager.Instance.slotManager.SetScrewSlot(screw);
-        //StartCoroutine(
-        //        GameManager.Instance.slotManager.SetScrewSlot(screw));
+        screw.transform.parent = null;
+        GameManager.Instance.slotManager.EnqueueScrew(screw);
 
-        DropTile();   
+        DropTile();
     }
 
     private void DropTile()
