@@ -63,8 +63,9 @@ public class TileGridGenerator : MonoBehaviour
 
         foreach (var tile in layerTiles)
         {
-            Vector3 tileBoxPos = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z + -0.5f);
-            Collider[] colliders = Physics.OverlapBox(tileBoxPos, tile.gameObject.transform.localScale / 2, Quaternion.identity, tileLayer);
+            Vector3 tileBoxPos = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z + -0.16f);
+            Vector3 tileBoxScale = new Vector3(tile.transform.localScale.x, tile.transform.localScale.y, tile.transform.localScale.z * (Mathf.Abs(layerSpacing) + 0.1f)) * 0.85f;
+            Collider[] colliders = Physics.OverlapBox(tileBoxPos, tileBoxScale / 2, Quaternion.identity, tileLayer);
 
             foreach (Collider collider in colliders)
             {
@@ -74,7 +75,7 @@ public class TileGridGenerator : MonoBehaviour
                 //Debug.Log(tile.gameObject.name + " has hit : " + collider.name);
             }
 
-            if (colliders.Length <= 1) // Checking against 1 since they're colliding with self for some reason
+            if (colliders.Length <= 0)
             {
                 tile.SetTileState(true);
             }
@@ -128,7 +129,6 @@ public class TileGridGenerator : MonoBehaviour
         return screwColors;
     }
 
-
     private GameObject CreateTileRendererLayer(int layerNum)
     {
         GameObject tileLayerObj = Instantiate(tileLayerPrefab, transform);
@@ -137,24 +137,6 @@ public class TileGridGenerator : MonoBehaviour
         tileLayerObj.GetComponent<SortingGroup>().sortingOrder = layerNum;
 
         return tileLayerObj;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-
-        if (!Application.isPlaying) return;
-
-        foreach (var layerTiles in tiles)
-        {
-            var tiles = layerTiles.Value;
-
-            foreach (var tile in tiles)
-            {
-                Vector3 tileBoxPos = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z + -0.5f);
-                Gizmos.DrawWireCube(tileBoxPos, tile.gameObject.transform.localScale);
-            }
-        }
     }
 
     public int GetTotalTileCount()
@@ -182,5 +164,24 @@ public class TileGridGenerator : MonoBehaviour
         }
 
         tiles.Clear();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+
+        if (!Application.isPlaying) return;
+
+        foreach (var layerTiles in tiles)
+        {
+            var tiles = layerTiles.Value;
+
+            foreach (var tile in tiles)
+            {
+                Vector3 tileBoxPos = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z + -0.16f);
+                Vector3 tileBoxScale = new Vector3(tile.transform.localScale.x, tile.transform.localScale.y, tile.transform.localScale.z * (Mathf.Abs(layerSpacing) + 0.1f)) * 0.85f;
+                Gizmos.DrawWireCube(tileBoxPos, tileBoxScale);
+            }
+        }
     }
 }

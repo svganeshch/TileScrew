@@ -9,7 +9,6 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        currentLevelIndex = 0;
         currentLevelData = levels[currentLevelIndex];
     }
 
@@ -21,6 +20,7 @@ public class LevelManager : MonoBehaviour
         }
 
         currentLevelData = levels[currentLevelIndex];
+
         ValidateLevel(tileGridGenerator);
         tileGridGenerator.GenerateScrews();
     }
