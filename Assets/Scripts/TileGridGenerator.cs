@@ -111,17 +111,44 @@ public class TileGridGenerator : MonoBehaviour
         var colorData = GameManager.Instance.levelManager.colorData;
         List<Color> screwColors = new List<Color>();
         int totalTiles = GetTotalTileCount();
-
         int tileGroups = totalTiles / 3;
+
+        List<Color> availableColors = new List<Color>();
+        foreach (var colorEntry in colorData)
+        {
+            availableColors.Add(colorEntry.color);
+        }
+
+        Utils.ShuffleList(ref availableColors);
+        Color lastColor = Color.clear;
 
         for (int i = 0; i < tileGroups; i++)
         {
-            Color color = colorData[Random.Range(0, colorData.Length)].color;
+            if (availableColors.Count == 0)
+            {
+                foreach (var colorEntry in colorData)
+                {
+                    availableColors.Add(colorEntry.color);
+                }
+                Utils.ShuffleList(ref availableColors);
+            }
+
+            Color groupColor = availableColors[0];
+            availableColors.RemoveAt(0);
+
+            if (groupColor == lastColor && availableColors.Count > 0)
+            {
+                availableColors.Add(groupColor);
+                groupColor = availableColors[0];
+                availableColors.RemoveAt(0);
+            }
 
             for (int j = 0; j < 3; j++)
             {
-                screwColors.Add(color);
+                screwColors.Add(groupColor);
             }
+
+            lastColor = groupColor;
         }
 
         Utils.ShuffleList(ref screwColors);
