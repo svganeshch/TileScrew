@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
+
         levelManager.GenerateLevel(tileGridGenerator);
     }
 
