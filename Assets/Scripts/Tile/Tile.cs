@@ -38,7 +38,11 @@ public class Tile : MonoBehaviour, ITile, ITouch
 
     public void OnTouch()
     {
-        if (!state) return;
+        if (!state)
+        {
+            transform.DOShakePosition(0.4f);
+            return;
+        }
 
         screw.transform.parent = null;
         GameManager.Instance.slotManager.EnqueueScrew(screw);
