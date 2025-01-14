@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db430c92cc36f77409fbae5ee763dcef, type: 3}
   m_Name: Level 6
   m_EditorClassIdentifier: 
-  rows: 4
-  columns: 3
+  customLevelData: {fileID: 0}
+  rows: 9
+  columns: 9
   layers: 2
   reducedRows: 1
   reducedColumns: 1

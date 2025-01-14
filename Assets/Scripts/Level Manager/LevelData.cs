@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelData", menuName = "ScriptableObjects/LevelData", order = 1)]
@@ -9,6 +10,8 @@ public class LevelData : ScriptableObject
 
     public bool reducedRows = false;
     public bool reducedColumns = false;
+
+    public List<Vector2Int> customGridCells = new List<Vector2Int>();
 
     public GameObject tilePrefab;
 }

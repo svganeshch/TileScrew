@@ -25,6 +25,6 @@ public class GameScreenUIEvents : MonoBehaviour
 
     private void OnNextButtonClick(ClickEvent clickEvent)
     {
-        GameManager.Instance.NextLevel();
+        StartCoroutine(GameManager.Instance.LoadNextLevel());
     }
 }

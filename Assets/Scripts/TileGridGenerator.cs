@@ -1,6 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
+
+public class GridPositionData
+{
+    public Vector2Int gridCell;
+    public Vector3 gridPos;
+}
 
 public class TileGridGenerator : MonoBehaviour
 {
@@ -10,56 +17,165 @@ public class TileGridGenerator : MonoBehaviour
     public float tileSpacing = 0.1f;
     public float layerSpacing = -0.25f;
 
-    private Dictionary<int, List<Tile>> tiles = new Dictionary<int, List<Tile>>();
+    private List<List<GridPositionData>> gridPositions = new List<List<GridPositionData>>();
+    private List<KeyValuePair<GameObject, List<Tile>>> tiles = new List<KeyValuePair<GameObject, List<Tile>>>();
 
-    public void GenerateGrid(LevelData levelData)
+    public void GenerateGridPositions(int layer, int levelRows, int levelColumns,
+        bool isReducedRows, bool isReducedColumns, GameObject layerRendererObj)
     {
-        int layer = Mathf.Max(tiles.Count, 0);
-        float levelRows = levelData.rows;
-        float levelColumns = levelData.columns;
+        SpriteRenderer spriteRenderer = layerRendererObj.GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer not found on layerRendererObj.");
+            return;
+        }
 
-        GameObject layerRendererObj = CreateTileRendererLayer(layer);
-        float layerRows = (levelData.reducedRows) ? levelRows - layer : levelRows;
-        float layerColumns = (levelData.reducedColumns) ? levelColumns - layer : levelColumns;
+        // Size of the SpriteRenderer
+        Vector2 spriteSize = spriteRenderer.size;
+        float spriteWidth = spriteSize.x;
+        float spriteHeight = spriteSize.y;
 
-        float totalWidth = (layerColumns - 1) * (1 + tileSpacing);
-        float totalHeight = (layerRows - 1) * (1 + tileSpacing);
+        float gridRows = levelRows;
+        float gridColumns = levelColumns;
 
-        float startPosX = -totalWidth / 2f;
-        float startPosY = totalHeight / 2f;
+        float layerRows = (isReducedRows) ? gridRows - layer : gridRows;
+        float layerColumns = (isReducedColumns) ? gridColumns - layer : gridColumns;
 
-        List<Tile> layerTiles = new List<Tile>();
+        float totalGridWidth = (layerColumns - 1) * (1 + tileSpacing);
+        float totalGridHeight = (layerRows - 1) * (1 + tileSpacing);
+
+        if (totalGridWidth > spriteWidth || totalGridHeight > spriteHeight)
+        {
+            Debug.LogWarning("Grid exceeds the bounds of the SpriteRenderer. Adjust rows/columns or spacing.");
+        }
+
+        // Starting position to center the grid within the SpriteRenderer bounds
+        float startPosX = spriteRenderer.transform.position.x - (spriteWidth / 2f) + (spriteWidth - totalGridWidth) / 2f;
+        float startPosY = spriteRenderer.transform.position.y + (spriteHeight / 2f) - (spriteHeight - totalGridHeight) / 2f;
+
+        List<GridPositionData> currentLayerGridPositions = new List<GridPositionData>();
 
         for (int y = 0; y < layerRows; y++)
         {
             for (int x = 0; x < layerColumns; x++)
             {
-                Vector3 tilePosition = new Vector3(
+                Vector3 gridPosition = new Vector3(
                     startPosX + x * (1 + tileSpacing),
                     startPosY - y * (1 + tileSpacing),
                     layer * layerSpacing
                 );
 
-                GameObject tileObj = Instantiate(levelData.tilePrefab, tilePosition, Quaternion.identity, layerRendererObj.transform);
+                GridPositionData gridPositionData = new GridPositionData();
+                gridPositionData.gridCell = new Vector2Int(x, y);
+                gridPositionData.gridPos = gridPosition;
 
-                tileObj.TryGetComponent<Tile>(out Tile tile);
-                tile.tileLayer = layer;
-                layerTiles.Add(tile);
-
-                tileObj.name = $"Tile_{x}_{y}";
+                currentLayerGridPositions.Add(gridPositionData);
             }
         }
 
-        tiles.Add(layer, layerTiles);
+        gridPositions.Add(currentLayerGridPositions);
+    }
 
-        UpdateTilesStatus(layer - 1);
+    public void GenerateTileGrid(LevelData levelData, bool isCustomLevel = false)
+    {
+        gridPositions.Clear();
+
+        int levelRows = levelData.rows;
+        int levelColumns = levelData.columns;
+        int levelLayers = levelData.layers;
+
+        HashSet<Vector2Int> currentLayerCells = new HashSet<Vector2Int>(levelData.customGridCells);
+
+        if (isCustomLevel)
+        {
+            (levelRows, levelColumns) = Utils.GetGridDimensions(levelData.customGridCells);
+            levelLayers = 1;
+        }
+
+        if (levelRows == 0 && levelColumns == 0) return;
+
+        for (int layer = 0; layer <= levelLayers; layer++)
+        {
+            if (layer > 0)
+            {
+                if (currentLayerCells.Count <= 0) return;
+            }
+
+            List<Tile> layerTiles = new List<Tile>();
+
+            int layerRows = (levelData.reducedRows) ? levelRows - layer : levelRows;
+            int layerColumns = (levelData.reducedColumns) ? levelColumns - layer : levelColumns;
+
+            int tileRendererLayer = tiles.Count;
+            GameObject layerRendererObj = CreateTileRendererLayer(tileRendererLayer);
+
+            GenerateGridPositions(layer, levelRows, levelColumns,
+                levelData.reducedRows, levelData.reducedColumns, layerRendererObj);
+
+            for (int y = 0; y < layerRows; y++)
+            {
+                for (int x = 0; x < layerColumns; x++)
+                {
+                    var cell = new Vector2Int(x, y);
+
+                    if (isCustomLevel)
+                    {
+                        if (!currentLayerCells.Contains(cell)) continue;
+                    }
+                        
+                    Vector3 tilePosition = GetLayerGridPosFromCell(layer, cell);
+
+                    if (tilePosition == Vector3.positiveInfinity)
+                    {
+                        Debug.Log($"Tile position not found for grid cell {cell}");
+                        continue;
+                    }
+
+                    tilePosition.z = tileRendererLayer * layerSpacing;
+                    var tile = CreateTile(levelData, tilePosition, layerRendererObj, tileRendererLayer, cell);
+                    layerTiles.Add(tile);
+                }
+            }
+
+            currentLayerCells = Utils.GetInnerLayerCells(currentLayerCells);
+
+            tiles.Add(new KeyValuePair<GameObject, List<Tile>>(layerRendererObj, layerTiles));
+
+            UpdateTilesStatus(tileRendererLayer - 1);
+        }
+    }
+
+    private Tile CreateTile(LevelData levelData, Vector3 tilePos, GameObject layerRendererObj, int layer, Vector2Int cell)
+    {
+        GameObject tileObj = Instantiate(levelData.tilePrefab, tilePos, Quaternion.identity, layerRendererObj.transform);
+        tileObj.TryGetComponent<Tile>(out Tile tile);
+        tile.tileLayer = layer;
+
+        tileObj.name = $"Tile_{cell.x}_{cell.y}";
+
+        return tile;
+    }
+
+    private Vector3 GetLayerGridPosFromCell(int layer, Vector2Int gridCell)
+    {
+        var layerGridPositions = gridPositions[layer];
+
+        foreach (var gridData in layerGridPositions)
+        {
+            if (gridData.gridCell == gridCell)
+            {
+                return gridData.gridPos;
+            }
+        }
+
+        return Vector3.positiveInfinity;
     }
 
     private void UpdateTilesStatus(int layer)
     {
         if (layer < 0) return;
 
-        var layerTiles = tiles[layer];
+        var layerTiles = tiles[layer].Value;
 
         foreach (var tile in layerTiles)
         {
@@ -170,27 +286,31 @@ public class TileGridGenerator : MonoBehaviour
     {
         int totalTiles = 0;
 
-        foreach (var layerTiles in tiles)
+        foreach (var tilesValuePair in tiles)
         {
-            totalTiles += layerTiles.Value.Count;
+            totalTiles += tilesValuePair.Value.Count;
         }
 
         return totalTiles;
     }
 
-    public void ClearGrid()
+    public bool ClearGrid()
     {
-        foreach (var layer in tiles)
+        foreach (var tilesValuePair in tiles)
         {
-            var layerTiles = layer.Value;
+            var layerTiles = tilesValuePair.Value;
 
             foreach (var tile in layerTiles)
             {
                 Destroy(tile.gameObject);
             }
+
+            Destroy(tilesValuePair.Key);
         }
 
         tiles.Clear();
+
+        return true;
     }
 
     private void OnDrawGizmos()
@@ -199,15 +319,25 @@ public class TileGridGenerator : MonoBehaviour
 
         if (!Application.isPlaying) return;
 
-        foreach (var layerTiles in tiles)
+        foreach (var tilesValuePair in tiles)
         {
-            var tiles = layerTiles.Value;
+            var tiles = tilesValuePair.Value;
 
             foreach (var tile in tiles)
             {
                 Vector3 tileBoxPos = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z + -0.16f);
                 Vector3 tileBoxScale = new Vector3(tile.transform.localScale.x, tile.transform.localScale.y, tile.transform.localScale.z * (Mathf.Abs(layerSpacing) + 0.1f)) * 0.85f;
                 Gizmos.DrawWireCube(tileBoxPos, tileBoxScale);
+            }
+        }
+
+        for (int layer = 0; layer < gridPositions.Count; layer++)
+        {
+            var layerGridPositions = gridPositions[layer];
+
+            foreach (var gridPos in layerGridPositions)
+            {
+                //Gizmos.DrawSphere(gridPos.gridPos, 0.15f);
             }
         }
     }

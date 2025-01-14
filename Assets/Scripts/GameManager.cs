@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -29,9 +30,12 @@ public class GameManager : MonoBehaviour
         levelManager.GenerateLevel(tileGridGenerator);
     }
 
-    public void NextLevel()
+    public IEnumerator LoadNextLevel()
     {
-        tileGridGenerator.ClearGrid();
+        bool tileCleared = tileGridGenerator.ClearGrid();
+
+        yield return new WaitUntil(() => tileCleared);
+
         levelManager.GenerateNextLevel(tileGridGenerator);
     }
 }

@@ -8,7 +8,7 @@ public class LevelDesignEditorWindow : EditorWindow
     private bool[,] gridState = new bool[gridSize, gridSize];
     private Vector2 scrollPos;
     private string fileName = "NewGridData";
-    private LevelDesignData loadedData;
+    private LevelData loadedData;
     private const float cellSize = 25f;
 
     [MenuItem("Tools/Level Design Editor")]
@@ -24,7 +24,7 @@ public class LevelDesignEditorWindow : EditorWindow
 
         fileName = EditorGUILayout.TextField("File Name", fileName);
 
-        loadedData = (LevelDesignData)EditorGUILayout.ObjectField("Load Existing Data", loadedData, typeof(LevelDesignData), false);
+        loadedData = (LevelData)EditorGUILayout.ObjectField("Load Existing Data", loadedData, typeof(LevelData), false);
         if (GUILayout.Button("Load Grid Data"))
         {
             LoadGridData();
@@ -106,7 +106,7 @@ public class LevelDesignEditorWindow : EditorWindow
             }
         }
 
-        string path = $"Assets/{fileName}.asset";
+        string path = $"Assets/Data/Level Data/{fileName}.asset";
 
         // Check if overwriting or creating a new file
         if (System.IO.File.Exists(path) && (loadedData == null || AssetDatabase.GetAssetPath(loadedData) != path))
@@ -125,7 +125,7 @@ public class LevelDesignEditorWindow : EditorWindow
             }
         }
 
-        LevelDesignData levelDesignData;
+        LevelData levelDesignData;
 
         if (loadedData != null && AssetDatabase.GetAssetPath(loadedData) == path)
         {
@@ -133,11 +133,11 @@ public class LevelDesignEditorWindow : EditorWindow
         }
         else
         {
-            levelDesignData = CreateInstance<LevelDesignData>();
+            levelDesignData = CreateInstance<LevelData>();
             AssetDatabase.CreateAsset(levelDesignData, path);
         }
 
-        levelDesignData.selectedCells = selectedCells;
+        levelDesignData.customGridCells = selectedCells;
         EditorUtility.SetDirty(levelDesignData);
         AssetDatabase.SaveAssets();
 
@@ -154,7 +154,7 @@ public class LevelDesignEditorWindow : EditorWindow
 
         ClearGrid();
 
-        foreach (var cell in loadedData.selectedCells)
+        foreach (var cell in loadedData.customGridCells)
         {
             if (cell.x >= 0 && cell.x < gridSize && cell.y >= 0 && cell.y < gridSize)
             {
