@@ -93,6 +93,8 @@ public class TileGridGenerator : MonoBehaviour
         int previousLayerRow = levelRows;
         int previousLayerColumn = levelColumns;
 
+        bool skipCellsInLayer = false;
+
         HashSet<Vector2Int> currentLayerCells = new HashSet<Vector2Int>(levelData.customGridCells);
 
         if (isCustomLevel)
@@ -121,11 +123,15 @@ public class TileGridGenerator : MonoBehaviour
             // Increase layer size randomly and skip this for adjustment layer to not mess with validation
             if (!isAdjustmentLayer)
             {
-                bool increaseRow = Random.value < 0.5f;
-                bool increaseColumn = Random.value < 0.5f;
+                bool increaseRow = Utils.GetRandomBool();
+                bool increaseColumn = Utils.GetRandomBool();
 
-                layerRows = increaseRow ? previousLayerRow + 1 : layerRows;
-                layerColumns = increaseColumn ? previousLayerColumn + 1 : layerColumns;
+                layerRows = increaseRow ? Mathf.Min(previousLayerRow + 1, GameManager.Instance.levelManager.MAX_ROWS)
+                                            : layerRows;
+                layerColumns = increaseColumn ? Mathf.Min(previousLayerColumn + 1, GameManager.Instance.levelManager.MAX_COLUMNS)
+                                            : layerColumns;
+
+                skipCellsInLayer = Utils.GetRandomBool(0.5f);
             }
 
             int tileRendererLayer = tiles.Count;
@@ -142,6 +148,11 @@ public class TileGridGenerator : MonoBehaviour
                     if (isCustomLevel)
                     {
                         if (!currentLayerCells.Contains(cell)) continue;
+                    }
+                    else if (!isCustomLevel && skipCellsInLayer)
+                    {
+                        bool skipCell = Utils.GetRandomBool(0.35f);
+                        if (skipCell) continue;
                     }
                         
                     Vector3 tilePosition = GetLayerGridPosFromCell(layer, cell);

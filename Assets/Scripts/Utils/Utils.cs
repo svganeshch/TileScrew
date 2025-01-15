@@ -65,4 +65,9 @@ public class Utils
 
         return innerCells;
     }
+
+    public static bool GetRandomBool(float chance = 0.5f)
+    {
+        return Random.value < chance;
+    }
 }

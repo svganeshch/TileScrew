@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public int MAX_ROWS = 8;
+    public int MAX_COLUMNS = 8;
+
     public CustomLevelData[] customLevels;
     public ColorData[] colorData;
     public GameObject[] tilesPrefab;
@@ -60,12 +63,12 @@ public class LevelManager : MonoBehaviour
     {
         LevelData randomLevel = ScriptableObject.CreateInstance<LevelData>();
 
-        randomLevel.rows = Random.Range(4, 8);
-        randomLevel.columns = Random.Range(4, 8);
+        randomLevel.rows = Random.Range(4, MAX_ROWS + 1);
+        randomLevel.columns = Random.Range(4, MAX_COLUMNS + 1);
         randomLevel.layers = Random.Range(1, 4);
 
-        randomLevel.reducedRows = Random.value < 0.5f;
-        randomLevel.reducedColumns = Random.value < 0.5f;
+        randomLevel.reducedRows = Utils.GetRandomBool();
+        randomLevel.reducedColumns = Utils.GetRandomBool();
 
         randomLevel.tilePrefab = tilesPrefab[Random.Range(0, tilesPrefab.Length - 1)];
 
