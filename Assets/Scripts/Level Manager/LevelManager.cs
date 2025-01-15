@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public LevelData[] levels;
+    public CustomLevelData[] customLevels;
     public ColorData[] colorData;
-    public int currentLevelIndex;
+    public GameObject[] tilesPrefab;
+    public int currentLevel = 1;
     public LevelData currentLevelData;
-
-    private void Awake()
-    {
-        currentLevelData = levels[currentLevelIndex];
-    }
 
     public void GenerateLevel(TileGridGenerator tileGridGenerator)
     {
-        currentLevelData = GetCurrentLevelData();
+        currentLevelData = GenerateRandomBaseLevel();
         tileGridGenerator.GenerateTileGrid(currentLevelData);
 
-        if (currentLevelData.customGridCells.Count > 0)
+        if (currentLevel > 10)
         {
-            tileGridGenerator.GenerateTileGrid(currentLevelData, true);
+            var customLevelData = customLevels[Random.Range(0, customLevels.Length - 1)];
+            if (customLevelData.customGridCells.Count > 0)
+            {
+                tileGridGenerator.GenerateCustomTileGrid(customLevelData, currentLevelData);
+            }
         }
 
         ValidateLevel(tileGridGenerator);
@@ -46,18 +46,29 @@ public class LevelManager : MonoBehaviour
         adjustMentLayerData.reducedColumns = false;
         adjustMentLayerData.tilePrefab = currentLevelData.tilePrefab;
 
-        tileGridGenerator.GenerateTileGrid(adjustMentLayerData);
+        tileGridGenerator.GenerateTileGrid(adjustMentLayerData, false, true);
         Debug.Log($"Added Adjustment Layer with {tilesToAdd} tile(s) to ensure divisibility by 3.");
     }
 
     public void GenerateNextLevel(TileGridGenerator tileGridGenerator)
     {
-        currentLevelIndex++;
+        currentLevel++;
         GenerateLevel(tileGridGenerator);
     }
 
-    public LevelData GetCurrentLevelData()
+    private LevelData GenerateRandomBaseLevel()
     {
-        return levels[currentLevelIndex];
+        LevelData randomLevel = ScriptableObject.CreateInstance<LevelData>();
+
+        randomLevel.rows = Random.Range(4, 8);
+        randomLevel.columns = Random.Range(4, 8);
+        randomLevel.layers = Random.Range(1, 4);
+
+        randomLevel.reducedRows = Random.value < 0.5f;
+        randomLevel.reducedColumns = Random.value < 0.5f;
+
+        randomLevel.tilePrefab = tilesPrefab[Random.Range(0, tilesPrefab.Length - 1)];
+
+        return randomLevel;
     }
 }

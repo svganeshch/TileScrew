@@ -11,7 +11,7 @@ public class LevelData : ScriptableObject
     public bool reducedRows = false;
     public bool reducedColumns = false;
 
-    public List<Vector2Int> customGridCells = new List<Vector2Int>();
-
     public GameObject tilePrefab;
+
+    [HideInInspector] public List<Vector2Int> customGridCells = new List<Vector2Int>();
 }

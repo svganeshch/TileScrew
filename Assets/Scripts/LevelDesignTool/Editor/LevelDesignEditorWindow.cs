@@ -8,7 +8,7 @@ public class LevelDesignEditorWindow : EditorWindow
     private bool[,] gridState = new bool[gridSize, gridSize];
     private Vector2 scrollPos;
     private string fileName = "NewGridData";
-    private LevelData loadedData;
+    private CustomLevelData loadedData;
     private const float cellSize = 25f;
 
     [MenuItem("Tools/Level Design Editor")]
@@ -24,7 +24,7 @@ public class LevelDesignEditorWindow : EditorWindow
 
         fileName = EditorGUILayout.TextField("File Name", fileName);
 
-        loadedData = (LevelData)EditorGUILayout.ObjectField("Load Existing Data", loadedData, typeof(LevelData), false);
+        loadedData = (CustomLevelData)EditorGUILayout.ObjectField("Load Existing Data", loadedData, typeof(CustomLevelData), false);
         if (GUILayout.Button("Load Grid Data"))
         {
             LoadGridData();
@@ -125,7 +125,7 @@ public class LevelDesignEditorWindow : EditorWindow
             }
         }
 
-        LevelData levelDesignData;
+        CustomLevelData levelDesignData;
 
         if (loadedData != null && AssetDatabase.GetAssetPath(loadedData) == path)
         {
@@ -133,7 +133,7 @@ public class LevelDesignEditorWindow : EditorWindow
         }
         else
         {
-            levelDesignData = CreateInstance<LevelData>();
+            levelDesignData = CreateInstance<CustomLevelData>();
             AssetDatabase.CreateAsset(levelDesignData, path);
         }
 

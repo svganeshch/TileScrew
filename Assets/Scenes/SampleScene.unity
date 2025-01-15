@@ -1191,18 +1191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff959f23967b21d4eacdfda3db84ca57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels:
-  - {fileID: 11400000, guid: a6edf790dc1606a4f9687604c08c1e35, type: 2}
-  - {fileID: 11400000, guid: 492141c896d0da94daed7202d0b23955, type: 2}
-  - {fileID: 11400000, guid: dd1c8f39b23dbbc42b5a643c8f268bc6, type: 2}
-  - {fileID: 11400000, guid: c62c5dda6bf560a4a922a829365212c3, type: 2}
-  - {fileID: 11400000, guid: f7ea7d37a13d5c4488332a31aeec0402, type: 2}
-  - {fileID: 11400000, guid: 75c29ec86655c2a40bc809cb6581690f, type: 2}
-  - {fileID: 11400000, guid: a1f96f96580122745a344f5e8634a5f5, type: 2}
-  - {fileID: 11400000, guid: 06bcaa21ef8030643b576a801e36c46f, type: 2}
-  - {fileID: 11400000, guid: 1852f13b49a25cb46bf9851324253c6b, type: 2}
-  - {fileID: 11400000, guid: 5cbd58b06db5913499b1d0c4394fa1fc, type: 2}
-  - {fileID: 11400000, guid: 5b2574d1eecd49e41b9308264768ee35, type: 2}
+  customLevels: []
   colorData:
   - {fileID: 11400000, guid: 724c0daa1aa63874ea47d6d6ac7ca313, type: 2}
   - {fileID: 11400000, guid: c0a1f88eb530cce41b95679b09ddbbe0, type: 2}
@@ -1217,7 +1206,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 742f07b351d21474e9de15e544ee6675, type: 2}
   - {fileID: 11400000, guid: 1f65c87aa16d2194b8c695d64e5bd5a6, type: 2}
   - {fileID: 11400000, guid: 62d5e59f214844f4f9cbf22133683f1d, type: 2}
-  currentLevelIndex: 0
+  tilesPrefab:
+  - {fileID: 4161647048256823549, guid: b70657e4d0353c74cad119a184b30b20, type: 3}
+  currentLevel: 1
   currentLevelData: {fileID: 0}
 --- !u!1001 &1601491185
 PrefabInstance:

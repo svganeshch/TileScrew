@@ -26,8 +26,7 @@ public class TileGridGenerator : MonoBehaviour
     private List<List<GridPositionData>> gridPositions = new List<List<GridPositionData>>();
     private List<KeyValuePair<GameObject, List<Tile>>> tiles = new List<KeyValuePair<GameObject, List<Tile>>>();
 
-    public void GenerateGridPositions(int layer, int levelRows, int levelColumns,
-        bool isReducedRows, bool isReducedColumns, GameObject layerRendererObj)
+    public void GenerateGridPositions(int layer, int layerRows, int layerColumns, GameObject layerRendererObj)
     {
         SpriteRenderer spriteRenderer = layerRendererObj.GetComponent<SpriteRenderer>();
         if (spriteRenderer == null)
@@ -40,12 +39,6 @@ public class TileGridGenerator : MonoBehaviour
         Vector2 spriteSize = spriteRenderer.size;
         float spriteWidth = spriteSize.x;
         float spriteHeight = spriteSize.y;
-
-        float gridRows = levelRows;
-        float gridColumns = levelColumns;
-
-        float layerRows = (isReducedRows) ? gridRows - layer : gridRows;
-        float layerColumns = (isReducedColumns) ? gridColumns - layer : gridColumns;
 
         float totalGridWidth = (layerColumns - 1) * (1 + tileSpacing);
         float totalGridHeight = (layerRows - 1) * (1 + tileSpacing);
@@ -82,13 +75,23 @@ public class TileGridGenerator : MonoBehaviour
         gridPositions.Add(currentLayerGridPositions);
     }
 
-    public void GenerateTileGrid(LevelData levelData, bool isCustomLevel = false)
+    public void GenerateCustomTileGrid(CustomLevelData customLevelData, LevelData currentLevelData)
+    {
+        currentLevelData.customGridCells = customLevelData.customGridCells;
+
+        GenerateTileGrid(currentLevelData, true);
+    }
+
+    public void GenerateTileGrid(LevelData levelData, bool isCustomLevel = false, bool isAdjustmentLayer = false)
     {
         gridPositions.Clear();
 
         int levelRows = levelData.rows;
         int levelColumns = levelData.columns;
         int levelLayers = levelData.layers;
+
+        int previousLayerRow = levelRows;
+        int previousLayerColumn = levelColumns;
 
         HashSet<Vector2Int> currentLayerCells = new HashSet<Vector2Int>(levelData.customGridCells);
 
@@ -115,11 +118,20 @@ public class TileGridGenerator : MonoBehaviour
             int layerRows = (levelData.reducedRows) ? levelRows - layer : levelRows;
             int layerColumns = (levelData.reducedColumns) ? levelColumns - layer : levelColumns;
 
+            // Increase layer size randomly and skip this for adjustment layer to not mess with validation
+            if (!isAdjustmentLayer)
+            {
+                bool increaseRow = Random.value < 0.5f;
+                bool increaseColumn = Random.value < 0.5f;
+
+                layerRows = increaseRow ? previousLayerRow + 1 : layerRows;
+                layerColumns = increaseColumn ? previousLayerColumn + 1 : layerColumns;
+            }
+
             int tileRendererLayer = tiles.Count;
             GameObject layerRendererObj = CreateTileRendererLayer(tileRendererLayer);
 
-            GenerateGridPositions(layer, levelRows, levelColumns,
-                levelData.reducedRows, levelData.reducedColumns, layerRendererObj);
+            GenerateGridPositions(layer, layerRows, layerColumns, layerRendererObj);
 
             for (int y = 0; y < layerRows; y++)
             {
@@ -145,6 +157,9 @@ public class TileGridGenerator : MonoBehaviour
                     layerTiles.Add(tile);
                 }
             }
+
+            previousLayerRow = layerRows;
+            previousLayerColumn = layerColumns;
 
             currentLayerCells = Utils.GetInnerLayerCells(currentLayerCells);
 
