@@ -42,7 +42,7 @@ public class Tile : MonoBehaviour, ITile, ITouch
 
     public void OnTouch()
     {
-        if (!state)
+        if (!state || GameManager.Instance.tileGridGenerator.currentTileGridState == TileGridState.Generating)
         {
             transform.DOShakePosition(0.4f);
             return;

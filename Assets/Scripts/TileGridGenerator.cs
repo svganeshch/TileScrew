@@ -13,6 +13,8 @@ public class GridPositionData
 
 public class TileGridGenerator : MonoBehaviour
 {
+    public TileGridState currentTileGridState;
+
     public GameObject tileLayerPrefab;
     public LayerMask tileLayer;
  
@@ -84,6 +86,8 @@ public class TileGridGenerator : MonoBehaviour
 
     public void GenerateTileGrid(LevelData levelData, bool isCustomLevel = false, bool isAdjustmentLayer = false)
     {
+        currentTileGridState = TileGridState.Generating;
+
         gridPositions.Clear();
 
         int levelRows = levelData.rows;
@@ -357,6 +361,8 @@ public class TileGridGenerator : MonoBehaviour
 
             UpdateTilesStatus(layer - 1);
         }
+
+        currentTileGridState = TileGridState.Done;
     }
 
     public bool ClearGrid()
