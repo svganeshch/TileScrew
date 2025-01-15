@@ -15,16 +15,18 @@ public class LevelManager : MonoBehaviour
     public void GenerateLevel(TileGridGenerator tileGridGenerator)
     {
         currentLevelData = GetCurrentLevelData();
-
         tileGridGenerator.GenerateTileGrid(currentLevelData);
 
         if (currentLevelData.customGridCells.Count > 0)
         {
             tileGridGenerator.GenerateTileGrid(currentLevelData, true);
         }
-        
+
         ValidateLevel(tileGridGenerator);
+
         tileGridGenerator.GenerateScrews();
+
+        StartCoroutine(tileGridGenerator.TileGridTweenAnimate());
     }
 
     private void ValidateLevel(TileGridGenerator tileGridGenerator)
@@ -45,7 +47,6 @@ public class LevelManager : MonoBehaviour
         adjustMentLayerData.tilePrefab = currentLevelData.tilePrefab;
 
         tileGridGenerator.GenerateTileGrid(adjustMentLayerData);
-
         Debug.Log($"Added Adjustment Layer with {tilesToAdd} tile(s) to ensure divisibility by 3.");
     }
 

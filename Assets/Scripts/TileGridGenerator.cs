@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +18,10 @@ public class TileGridGenerator : MonoBehaviour
  
     public float tileSpacing = 0.1f;
     public float layerSpacing = -0.25f;
+
+    [Header("Tween settings")]
+    float baseDelay = 0.05f;
+    float baseWaveSpeed = 0.05f;
 
     private List<List<GridPositionData>> gridPositions = new List<List<GridPositionData>>();
     private List<KeyValuePair<GameObject, List<Tile>>> tiles = new List<KeyValuePair<GameObject, List<Tile>>>();
@@ -96,9 +102,12 @@ public class TileGridGenerator : MonoBehaviour
 
         for (int layer = 0; layer <= levelLayers; layer++)
         {
-            if (layer > 0)
+            if (isCustomLevel)
             {
-                if (currentLayerCells.Count <= 0) return;
+                if (layer > 0)
+                {
+                    if (currentLayerCells.Count <= 0) return;
+                }
             }
 
             List<Tile> layerTiles = new List<Tile>();
@@ -140,8 +149,6 @@ public class TileGridGenerator : MonoBehaviour
             currentLayerCells = Utils.GetInnerLayerCells(currentLayerCells);
 
             tiles.Add(new KeyValuePair<GameObject, List<Tile>>(layerRendererObj, layerTiles));
-
-            UpdateTilesStatus(tileRendererLayer - 1);
         }
     }
 
@@ -151,6 +158,7 @@ public class TileGridGenerator : MonoBehaviour
         tileObj.TryGetComponent<Tile>(out Tile tile);
         tile.tileLayer = layer;
 
+        tileObj.SetActive(false);
         tileObj.name = $"Tile_{cell.x}_{cell.y}";
 
         return tile;
@@ -292,6 +300,37 @@ public class TileGridGenerator : MonoBehaviour
         }
 
         return totalTiles;
+    }
+
+    public IEnumerator TileGridTweenAnimate()
+    {
+        for (int layer = 0; layer < tiles.Count; layer++)
+        {
+            Sequence tileLayerWaveSequence = DOTween.Sequence();
+            float waveSpeed = baseWaveSpeed + (layer * 0.05f);
+
+            var layerTiles = tiles[layer].Value;
+
+            foreach (var tile in layerTiles)
+            {
+                tile.gameObject.SetActive(true);
+
+                float delay = baseDelay * waveSpeed;
+                Vector3 startScale = Vector3.zero;
+                Vector3 endScale = tile.transform.localScale;
+
+                tile.transform.localScale = startScale;
+                Tween tileScaleTween = tile.transform.DOScale(endScale, 0.5f)
+                                        .SetDelay(delay)
+                                        .SetEase(Ease.OutBack);
+
+                tileLayerWaveSequence.Join(tileScaleTween);
+            }
+
+            yield return tileLayerWaveSequence.WaitForCompletion();
+
+            UpdateTilesStatus(layer - 1);
+        }
     }
 
     public bool ClearGrid()
