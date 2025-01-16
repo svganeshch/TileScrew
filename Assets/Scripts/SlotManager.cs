@@ -175,7 +175,11 @@ public class SlotManager : MonoBehaviour
         {
             slots[matchingIndex].slotScrew.gameObject.SetActive(false);
             slots[matchingIndex].slotScrew = null;
+
+            slots[matchingIndex].slotVFX.Play();
         }
+
+        SFXManager.Instance.PlayScrewsMatchedSound();
 
         matchingSlotIndexs.Clear();
     }

@@ -7,9 +7,16 @@ public class Slot : MonoBehaviour, ISlot
     public float moveSpeed = 0.5f;
     public float shiftSpeed = 0.15f;
 
+    public ParticleSystem slotVFX;
+
     private float transistionSpeed = 0;
     private Screw _slotScrew;
     public Screw slotScrew { get => _slotScrew; set => _slotScrew = value; }
+
+    private void Awake()
+    {
+        slotVFX = GetComponentInChildren<ParticleSystem>();
+    }
 
     public Tween SetSlotPositionTween(Screw screw, bool isShift = false, Action OnCompleteCallback = null)
     {

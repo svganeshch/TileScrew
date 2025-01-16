@@ -45,11 +45,14 @@ public class Tile : MonoBehaviour, ITile, ITouch
         if (!state || GameManager.Instance.tileGridGenerator.currentTileGridState == TileGridState.Generating)
         {
             transform.DOShakePosition(0.4f);
+
+            SFXManager.Instance.PlayTileBlockedSound();
             return;
         }
 
         screw.transform.parent = null;
         GameManager.Instance.slotManager.EnqueueScrew(screw);
+        SFXManager.Instance.PlayTilePickSound();
 
         DropTile();
     }
