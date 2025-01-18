@@ -26,7 +26,7 @@ public class TileGridGenerator : MonoBehaviour
     float baseWaveSpeed = 0.05f;
 
     private List<List<GridPositionData>> gridPositions = new List<List<GridPositionData>>();
-    private List<KeyValuePair<GameObject, List<Tile>>> tiles = new List<KeyValuePair<GameObject, List<Tile>>>();
+    public List<KeyValuePair<GameObject, List<Tile>>> tiles = new List<KeyValuePair<GameObject, List<Tile>>>();
 
     public void GenerateGridPositions(int layer, int layerRows, int layerColumns, GameObject layerRendererObj)
     {
@@ -240,6 +240,7 @@ public class TileGridGenerator : MonoBehaviour
     {
         int layerBelowTile = removedTile.tileLayer - 1;
 
+        tiles[removedTile.tileLayer].Value.Remove(removedTile);
         UpdateTilesStatus(layerBelowTile);
     }
 

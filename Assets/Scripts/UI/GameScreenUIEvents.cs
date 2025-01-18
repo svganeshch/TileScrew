@@ -6,6 +6,8 @@ public class GameScreenUIEvents : MonoBehaviour
     private UIDocument document;
 
     private Button nextButton;
+    private Button magnetButton;
+    private Button shuffleButton;
     private Label fps;
 
     private void Awake()
@@ -14,6 +16,12 @@ public class GameScreenUIEvents : MonoBehaviour
 
         nextButton = document.rootVisualElement.Q("NextButton") as Button;
         nextButton.RegisterCallback<ClickEvent>(OnNextButtonClick);
+
+        magnetButton = document.rootVisualElement.Q("MagnetButton") as Button;
+        magnetButton.RegisterCallback<ClickEvent>(OnMagnetButtonClick);
+
+        shuffleButton = document.rootVisualElement.Q("ShuffleButton") as Button;
+        shuffleButton.RegisterCallback<ClickEvent>(OnShuffleButtonClick);
 
         fps = document.rootVisualElement.Q("fps") as Label;
     }
@@ -26,5 +34,15 @@ public class GameScreenUIEvents : MonoBehaviour
     private void OnNextButtonClick(ClickEvent clickEvent)
     {
         StartCoroutine(GameManager.Instance.LoadNextLevel());
+    }
+
+    private void OnMagnetButtonClick(ClickEvent clickEvent)
+    {
+        BoosterManager.Instance.MagnetBooster();
+    }
+
+    private void OnShuffleButtonClick(ClickEvent clickEvent)
+    {
+        StartCoroutine(BoosterManager.Instance.ShuffleLevelBooster());
     }
 }
