@@ -244,6 +244,14 @@ public class TileGridGenerator : MonoBehaviour
         UpdateTilesStatus(layerBelowTile);
     }
 
+    public void OnTileUndo(Tile undoTile)
+    {
+        int layerBelowTile = undoTile.tileLayer - 1;
+
+        tiles[undoTile.tileLayer].Value.Add(undoTile);
+        UpdateTilesStatus(layerBelowTile);
+    }
+
     public void GenerateScrews()
     {
         List<Color> screwColors = GenerateScrewColorGroups();

@@ -183,4 +183,16 @@ public class SlotManager : MonoBehaviour
 
         matchingSlotIndexs.Clear();
     }
+
+    public void ResetSlot(Screw screw)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.slotScrew == screw)
+            {
+                slot.slotScrew = null;
+                break;
+            }
+        }
+    }
 }

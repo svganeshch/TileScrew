@@ -10,6 +10,9 @@ public class Tile : MonoBehaviour, ITile, ITouch
     private Collider tileCollider;
     private SpriteRenderer spriteRenderer;
 
+    private Vector3 origTilePosition;
+    private Vector3 origTileScale;
+
     private int m_tileLayer = 0;
     private bool state = true;
 
@@ -24,6 +27,9 @@ public class Tile : MonoBehaviour, ITile, ITouch
         screw = GetComponentInChildren<Screw>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        origTilePosition = transform.position;
+        origTileScale = transform.localScale;
     }
 
     public void SetTileState(bool tileState)
@@ -50,6 +56,8 @@ public class Tile : MonoBehaviour, ITile, ITouch
             return;
         }
 
+        BoosterManager.Instance.previousTile = this;
+
         screw.transform.parent = null;
         GameManager.Instance.slotManager.EnqueueScrew(screw);
         SFXManager.Instance.PlayTilePickSound();
@@ -75,5 +83,23 @@ public class Tile : MonoBehaviour, ITile, ITouch
             .SetEase(Ease.InOutQuad));
 
         tileDropSequence.InsertCallback(0.1f, () => GameManager.Instance.tileGridGenerator.OnTileRemoved(this));
+    }
+
+    public void TileReset()
+    {
+        if (tileDropSequence.active)
+        {
+            tileDropSequence.Kill();
+        }
+
+        transform.SetPositionAndRotation(origTilePosition, Quaternion.identity);
+        transform.localScale = origTileScale;
+        tileCollider.enabled = true;
+
+        screw.transform.parent = transform;
+        screw.transform.localPosition = Vector3.zero;
+
+        GameManager.Instance.slotManager.ResetSlot(screw);
+        GameManager.Instance.tileGridGenerator.OnTileUndo(this);
     }
 }

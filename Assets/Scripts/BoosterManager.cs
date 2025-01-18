@@ -8,6 +8,8 @@ public class BoosterManager : MonoBehaviour
     TileGridGenerator tileGridGenerator;
     LevelManager levelManager;
 
+    public Tile previousTile;
+
     private void Awake()
     {
         if (Instance == null)
@@ -68,5 +70,15 @@ public class BoosterManager : MonoBehaviour
         yield return new WaitUntil(() => tileCleared);
 
         levelManager.GenerateLevel(tileGridGenerator);
+    }
+
+    public void Undo()
+    {
+        if (previousTile != null)
+        {
+            previousTile.TileReset();
+
+            previousTile = null;
+        }
     }
 }
