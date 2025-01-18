@@ -1,0 +1,6 @@
+.booster-button {
+    width: 200px;
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0);
+    background-image: url("project://database/Assets/Sprites/tile.png?fileID=21300000&guid=13f5fc628008f494aae34ad695fd1683&type=3#tile");
+}
