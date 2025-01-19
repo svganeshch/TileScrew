@@ -122,27 +122,36 @@ public class TileGridGenerator : MonoBehaviour
                 }
             }
 
+            int layerRows = previousLayerRow, layerColumns = previousLayerColumn;
             List<Tile> layerTiles = new List<Tile>();
 
-            int layerRows = (levelData.reducedRows) ? levelRows - layer : levelRows;
-            int layerColumns = (levelData.reducedColumns) ? levelColumns - layer : levelColumns;
-
             iceTileCount = 1;
-            maxIceTileCount = 0;
+            maxIceTileCount = 3;
 
-            // Increase layer size randomly and skip this for adjustment and custom layers to not mess with validation
-            if (!isAdjustmentLayer || !isCustomLevel)
+            // Increase layer size randomly, and skip this for adjustment and custom layers to not mess with validation
+            if (!isAdjustmentLayer && !isCustomLevel)
             {
-                layerRows = levelData.increasedRows ? Mathf.Min(previousLayerRow + 1, GameManager.Instance.levelManager.MAX_ROWS)
-                            : layerRows;
+                if (GameManager.Instance.levelManager.CalculateRandomLayerChance())
+                {
+                    // Reduce
+                    layerRows = Mathf.Max(1, previousLayerRow - 1);
 
-                layerColumns = levelData.increasedColumns ? Mathf.Min(previousLayerColumn + 1, GameManager.Instance.levelManager.MAX_COLUMNS)
-                               : layerColumns;
+                    layerColumns = Mathf.Max(1, previousLayerColumn - 1);
+                }
+                else
+                {
+                    //Increase
+                    layerRows = Mathf.Min(previousLayerRow + 1, GameManager.Instance.levelManager.MAX_ROWS);
+
+                    layerColumns = Mathf.Min(previousLayerColumn + 1, GameManager.Instance.levelManager.MAX_COLUMNS);
+                }
 
                 skipCellsInLayer = Utils.GetRandomBool(0.5f);
-
-                maxIceTileCount = 3;
             }
+
+            // Allow Ice tiles on base and custom layers
+            if (isAdjustmentLayer)
+                maxIceTileCount = 0;
 
             int tileRendererLayer = tiles.Count;
             GameObject layerRendererObj = CreateTileRendererLayer(tileRendererLayer);

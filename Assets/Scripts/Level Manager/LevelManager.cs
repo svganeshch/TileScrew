@@ -95,25 +95,23 @@ public class LevelManager : MonoBehaviour
         int maxLayers = Mathf.Min(1 + currentLevel / 10, MAX_LAYERS);
         randomLevel.layers = Random.Range(1, maxLayers + 1);
 
-        // Toggle reduced rows and columns more often in higher levels
-        float reducedChance = Mathf.Clamp01(0.2f + (currentLevel * 0.02f));
-        randomLevel.reducedRows = Utils.GetRandomBool(reducedChance);
-        randomLevel.reducedColumns = Utils.GetRandomBool(reducedChance);
-
-        // Toggle increased rows and columns more often in higher levels
-        randomLevel.increasedRows = Utils.GetRandomBool(reducedChance);
-        randomLevel.increasedColumns = Utils.GetRandomBool(reducedChance);
-
         // Toggle Ice Tiles more often starting from level 10
         if (currentLevel > 20)
         {
-            float iceTilesChance = Mathf.Clamp01(0.2f + (currentLevel * 0.02f));
+            float iceTilesChance = Mathf.Clamp01(0.6f + (currentLevel * 0.02f));
             randomLevel.hasIceTiles = Utils.GetRandomBool(iceTilesChance);
         }
 
         randomLevel.tilePrefab = tilesPrefab[Random.Range(0, tilesPrefab.Length)];
 
         return randomLevel;
+    }
+
+    public bool CalculateRandomLayerChance()
+    {
+        // Toggle reduced / increased rows and columns more often in higher levels
+        float reducedChance = Mathf.Clamp01(0.5f + (currentLevel * 0.02f));
+        return Utils.GetRandomBool(reducedChance);
     }
 
     public IEnumerator ClearLevel()
