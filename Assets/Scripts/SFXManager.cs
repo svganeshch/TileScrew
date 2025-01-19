@@ -5,6 +5,7 @@ public class SFXManager : MonoBehaviour
     public static SFXManager Instance;
 
     public AudioClip tilePickSound;
+    public AudioClip tileIceCrackSound;
     public AudioClip tileBlockedSound;
     public AudioClip screwsMatchedSound;
 
@@ -27,6 +28,11 @@ public class SFXManager : MonoBehaviour
     public void PlayTilePickSound()
     {
         audioSource.PlayOneShot(tilePickSound);
+    }
+
+    public void PlayTileIceCrackSound()
+    {
+        audioSource.PlayOneShot(tileIceCrackSound);
     }
 
     public void PlayTileBlockedSound()

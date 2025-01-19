@@ -799,6 +799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePickSound: {fileID: 8300000, guid: 570efac0dc16afa40bc604847c969f61, type: 3}
+  tileIceCrackSound: {fileID: 8300000, guid: 693f0e30eb31d974193ae5479b5fc37b, type: 3}
   tileBlockedSound: {fileID: 8300000, guid: ed749e81f4cb00d44829e3ca06093700, type: 3}
   screwsMatchedSound: {fileID: 8300000, guid: 8f27b1df068d0094e95a40c8875e178b, type: 3}
 --- !u!82 &482089916

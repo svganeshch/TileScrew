@@ -27,5 +27,7 @@ public class TileIceManager : MonoBehaviour
 
         tileIceSprites[iceBreakCount].enabled = false;
         iceBreakCount++;
+
+        SFXManager.Instance.PlayTileIceCrackSound();
     }
 }
