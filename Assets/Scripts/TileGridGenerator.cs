@@ -274,6 +274,15 @@ public class TileGridGenerator : MonoBehaviour
         }
     }
 
+    private void CheckIsLevelDone()
+    {
+        if (GetTotalTileCount() <= 0)
+        {
+            UIManager.Instance.onLevelDoneEvent.Invoke();
+            Debug.Log("Level done");
+        }
+    }
+
     public void OnTileRemoved(Tile removedTile)
     {
         int layerBelowTile = removedTile.tileLayer - 1;
@@ -282,6 +291,8 @@ public class TileGridGenerator : MonoBehaviour
 
         UpdateIceTilesStatus();
         UpdateTilesStatus(layerBelowTile);
+
+        CheckIsLevelDone();
     }
 
     public void OnTileUndo(Tile undoTile)

@@ -7,8 +7,10 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     public UIDocument gameOverScreen;
+    public UIDocument levelDoneScreen;
 
     public UnityEvent<string> onLevelChangeEvent;
+    public UnityEvent onLevelDoneEvent;
     public UnityEvent gameOverEvent;
 
     private void Awake()
@@ -19,12 +21,17 @@ public class UIManager : MonoBehaviour
         }
 
         onLevelChangeEvent = new UnityEvent<string>();
+        onLevelDoneEvent = new UnityEvent();
         gameOverEvent = new UnityEvent();
+
+        onLevelDoneEvent.AddListener(ShowLevelDoneScreen);
+        gameOverEvent.AddListener(OnGameOverEvent);
     }
 
-    private void Start()
+    private void ShowLevelDoneScreen()
     {
-        gameOverEvent.AddListener(OnGameOverEvent);
+        GameManager.currentGameState = GameState.Paused;
+        levelDoneScreen.rootVisualElement.style.visibility = Visibility.Visible;
     }
 
     private void OnGameOverEvent()
