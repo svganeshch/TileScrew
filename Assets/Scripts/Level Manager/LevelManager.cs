@@ -25,14 +25,14 @@ public class LevelManager : MonoBehaviour
         currentLevelData = GenerateRandomBaseLevel();
         tileGridGenerator.GenerateTileGrid(currentLevelData);
 
-        if (currentLevel > 10)
-        {
-            var customLevelData = customLevels[Random.Range(0, customLevels.Length - 1)];
-            if (customLevelData.customGridCells.Count > 0)
-            {
-                tileGridGenerator.GenerateCustomTileGrid(customLevelData, currentLevelData);
-            }
-        }
+        //if (currentLevel > 10)
+        //{
+        //    var customLevelData = customLevels[Random.Range(0, customLevels.Length - 1)];
+        //    if (customLevelData.customGridCells.Count > 0)
+        //    {
+        //        tileGridGenerator.GenerateCustomTileGrid(customLevelData, currentLevelData);
+        //    }
+        //}
 
         ValidateLevel(tileGridGenerator);
 
