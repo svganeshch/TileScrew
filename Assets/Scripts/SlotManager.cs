@@ -173,7 +173,7 @@ public class SlotManager : MonoBehaviour
     {
         foreach (int matchingIndex in matchingSlotIndexs)
         {
-            slots[matchingIndex].slotScrew.gameObject.SetActive(false);
+            Destroy(slots[matchingIndex].slotScrew.gameObject);
             slots[matchingIndex].slotScrew = null;
 
             slots[matchingIndex].slotVFX.Play();
