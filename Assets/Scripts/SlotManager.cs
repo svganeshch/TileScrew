@@ -23,12 +23,6 @@ public class SlotManager : MonoBehaviour
 
     public void EnqueueScrew(Screw screw, Action OnCompleteCallback = null)
     {
-        if (slots.Count(s => s.slotScrew != null) == slots.Count - 1)
-        {
-            UIManager.Instance.gameOverEvent.Invoke();
-            Debug.Log("All slots filled");
-        }
-
         screwQueue.Enqueue(() => SetScrewSlot(screw, OnCompleteCallback));
         ProcessScrewQueue();
     }
@@ -74,7 +68,7 @@ public class SlotManager : MonoBehaviour
 
             if (willCauseMatch)
             {
-                HandleMatchingSlotGroupsCallback();
+                yield return new WaitUntil(() => HandleMatchingSlotGroupsCallback());
                 yield return StartCoroutine(RearrangeSlots());
             }
         }
@@ -89,6 +83,12 @@ public class SlotManager : MonoBehaviour
                     break;
                 }
             }
+        }
+
+        if (slots.All(s => s.slotScrew != null))
+        {
+            UIManager.Instance.gameOverEvent.Invoke();
+            Debug.Log("All slots filled");
         }
 
         OnCompleteCallback?.Invoke();
@@ -169,7 +169,7 @@ public class SlotManager : MonoBehaviour
         yield return rearrangeSequence.WaitForCompletion();
     }
 
-    private void HandleMatchingSlotGroupsCallback()
+    private bool HandleMatchingSlotGroupsCallback()
     {
         foreach (int matchingIndex in matchingSlotIndexs)
         {
@@ -182,6 +182,8 @@ public class SlotManager : MonoBehaviour
         SFXManager.Instance.PlayScrewsMatchedSound();
 
         matchingSlotIndexs.Clear();
+
+        return true;
     }
 
     public bool ClearAllSlots()
