@@ -1541,7 +1541,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX_ROWS: 8
   MAX_COLUMNS: 8
-  customLevels: []
+  MAX_LAYERS: 6
+  customLevels:
+  - {fileID: 11400000, guid: 46b2eecd75ed8cd48b4f3796b53e909a, type: 2}
+  - {fileID: 11400000, guid: f7702013e66a63648a13bd5292da326e, type: 2}
+  - {fileID: 11400000, guid: 82f06539a4ef6d54db11f51cbc84d017, type: 2}
+  - {fileID: 11400000, guid: fd3f43e1f23852a4aa2334e8a0de1e2f, type: 2}
+  - {fileID: 11400000, guid: bdeb75c42618b1c4a8197de782f9a742, type: 2}
+  - {fileID: 11400000, guid: c76d8671b6e72774ab5b0ebeb7b71198, type: 2}
+  - {fileID: 11400000, guid: d05a88ae7348479408280e8eed659454, type: 2}
   colorData:
   - {fileID: 11400000, guid: 724c0daa1aa63874ea47d6d6ac7ca313, type: 2}
   - {fileID: 11400000, guid: c0a1f88eb530cce41b95679b09ddbbe0, type: 2}
@@ -1556,6 +1564,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 742f07b351d21474e9de15e544ee6675, type: 2}
   - {fileID: 11400000, guid: 1f65c87aa16d2194b8c695d64e5bd5a6, type: 2}
   - {fileID: 11400000, guid: 62d5e59f214844f4f9cbf22133683f1d, type: 2}
+  - {fileID: 11400000, guid: cbe8b30c3ded8164bac650a4c0d92416, type: 2}
+  - {fileID: 11400000, guid: dfed185de3a39e34fb028ad080bd5404, type: 2}
   tilesPrefab:
   - {fileID: 4161647048256823549, guid: b70657e4d0353c74cad119a184b30b20, type: 3}
   currentLevel: 1
