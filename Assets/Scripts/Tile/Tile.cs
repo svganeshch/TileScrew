@@ -6,6 +6,7 @@ public class Tile : MonoBehaviour, ITile, ITouch
 {
     public Color disabledColor;
     public Screw screw;
+    public TileIceManager tileIceManager;
 
     private Collider tileCollider;
     private SpriteRenderer spriteRenderer;
@@ -25,6 +26,7 @@ public class Tile : MonoBehaviour, ITile, ITouch
     {
         tileCollider = GetComponent<Collider>();
         screw = GetComponentInChildren<Screw>();
+        tileIceManager = GetComponentInChildren<TileIceManager>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -48,7 +50,9 @@ public class Tile : MonoBehaviour, ITile, ITouch
 
     public void OnTouch()
     {
-        if (!state || GameManager.Instance.tileGridGenerator.currentTileGridState == TileGridState.Generating)
+        if (!state
+            || tileIceManager.isIceTile
+            || GameManager.Instance.tileGridGenerator.currentTileGridState == TileGridState.Generating)
         {
             transform.DOShakePosition(0.4f);
 

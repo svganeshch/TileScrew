@@ -25,6 +25,9 @@ public class TileGridGenerator : MonoBehaviour
     float baseDelay = 0.05f;
     float baseWaveSpeed = 0.05f;
 
+    int iceTileCount = 1;
+    int maxIceTileCount = 3;
+
     private List<List<GridPositionData>> gridPositions = new List<List<GridPositionData>>();
     public List<KeyValuePair<GameObject, List<Tile>>> tiles = new List<KeyValuePair<GameObject, List<Tile>>>();
 
@@ -124,6 +127,9 @@ public class TileGridGenerator : MonoBehaviour
             int layerRows = (levelData.reducedRows) ? levelRows - layer : levelRows;
             int layerColumns = (levelData.reducedColumns) ? levelColumns - layer : levelColumns;
 
+            iceTileCount = 1;
+            maxIceTileCount = 0;
+
             // Increase layer size randomly and skip this for adjustment layer to not mess with validation
             if (!isAdjustmentLayer)
             {
@@ -136,6 +142,8 @@ public class TileGridGenerator : MonoBehaviour
                                             : layerColumns;
 
                 skipCellsInLayer = Utils.GetRandomBool(0.5f);
+
+                maxIceTileCount = 3;
             }
 
             int tileRendererLayer = tiles.Count;
@@ -191,6 +199,17 @@ public class TileGridGenerator : MonoBehaviour
         tileObj.SetActive(false);
         tileObj.name = $"Tile_{cell.x}_{cell.y}";
 
+        bool isIceTile = Utils.GetRandomBool();
+
+        if (isIceTile)
+        {
+            if (iceTileCount <= maxIceTileCount)
+            {
+                tile.tileIceManager.EnableIce();
+                iceTileCount++;
+            }
+        }
+
         return tile;
     }
 
@@ -236,11 +255,32 @@ public class TileGridGenerator : MonoBehaviour
         }
     }
 
+    private void UpdateIceTilesStatus()
+    {
+        foreach (var tileValuePair in tiles)
+        {
+            var layerTiles = tileValuePair.Value;
+
+            foreach (var tile in layerTiles)
+            {
+                if (tile.State)
+                {
+                    if (tile.tileIceManager.isIceTile)
+                    {
+                        tile.tileIceManager.BreakIce();
+                    }
+                }
+            }
+        }
+    }
+
     public void OnTileRemoved(Tile removedTile)
     {
         int layerBelowTile = removedTile.tileLayer - 1;
 
         tiles[removedTile.tileLayer].Value.Remove(removedTile);
+
+        UpdateIceTilesStatus();
         UpdateTilesStatus(layerBelowTile);
     }
 
