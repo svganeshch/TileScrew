@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -13,6 +15,8 @@ public class LevelManager : MonoBehaviour
 
     public void GenerateLevel(TileGridGenerator tileGridGenerator)
     {
+        GameManager.currentGameState = GameState.Active;
+
         currentLevelData = GenerateRandomBaseLevel();
         tileGridGenerator.GenerateTileGrid(currentLevelData);
 
@@ -73,5 +77,15 @@ public class LevelManager : MonoBehaviour
         randomLevel.tilePrefab = tilesPrefab[Random.Range(0, tilesPrefab.Length - 1)];
 
         return randomLevel;
+    }
+
+    public IEnumerator ClearLevel()
+    {
+        DOTween.KillAll();
+
+        bool gridCleared = GameManager.Instance.tileGridGenerator.ClearGrid();
+        bool slotsCleared = GameManager.Instance.slotManager.ClearAllSlots();
+
+        yield return new WaitUntil(() => gridCleared && slotsCleared);
     }
 }

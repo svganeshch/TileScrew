@@ -47,7 +47,7 @@ public class GameScreenUIEvents : MonoBehaviour
 
     private void OnShuffleButtonClick(ClickEvent clickEvent)
     {
-        StartCoroutine(BoosterManager.Instance.ShuffleLevelBooster());
+        BoosterManager.Instance.ShuffleLevelBooster();
     }
 
     private void OnUndoButtonClick(ClickEvent clickEvent)

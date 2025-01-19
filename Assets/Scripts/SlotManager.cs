@@ -23,6 +23,12 @@ public class SlotManager : MonoBehaviour
 
     public void EnqueueScrew(Screw screw, Action OnCompleteCallback = null)
     {
+        if (slots.Count(s => s.slotScrew != null) == slots.Count - 1)
+        {
+            UIManager.Instance.gameOverEvent.Invoke();
+            Debug.Log("All slots filled");
+        }
+
         screwQueue.Enqueue(() => SetScrewSlot(screw, OnCompleteCallback));
         ProcessScrewQueue();
     }
@@ -50,12 +56,6 @@ public class SlotManager : MonoBehaviour
 
     private IEnumerator SetScrewSlot(Screw screw, Action OnCompleteCallback)
     {
-        if (slots.All(s => s.slotScrew != null))
-        {
-            Debug.Log("All slots filled");
-            yield break;
-        }
-
         int sameColorIndex = slots.FindLastIndex(s => s.slotScrew != null && s.slotScrew.ScrewColor == screw.ScrewColor);
 
         if (sameColorIndex != -1)
@@ -182,6 +182,20 @@ public class SlotManager : MonoBehaviour
         SFXManager.Instance.PlayScrewsMatchedSound();
 
         matchingSlotIndexs.Clear();
+    }
+
+    public bool ClearAllSlots()
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.slotScrew != null)
+            {
+                Destroy(slot.slotScrew.gameObject);
+                slot.slotScrew = null;
+            }
+        }
+
+        return true;
     }
 
     public void ResetSlot(Screw screw)

@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public SlotManager slotManager;
     public TileGridGenerator tileGridGenerator;
 
+    public static GameState currentGameState;
+
     private void Awake()
     {
         if (Instance == null)
@@ -19,6 +21,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        currentGameState = GameState.Active;
     }
 
     private void Start()
@@ -30,11 +34,16 @@ public class GameManager : MonoBehaviour
         levelManager.GenerateLevel(tileGridGenerator);
     }
 
+    public IEnumerator ReloadLevel()
+    {
+        yield return StartCoroutine(levelManager.ClearLevel());
+
+        levelManager.GenerateLevel(tileGridGenerator);
+    }
+
     public IEnumerator LoadNextLevel()
     {
-        bool tileCleared = tileGridGenerator.ClearGrid();
-
-        yield return new WaitUntil(() => tileCleared);
+        yield return StartCoroutine(levelManager.ClearLevel());
 
         levelManager.GenerateNextLevel(tileGridGenerator);
     }

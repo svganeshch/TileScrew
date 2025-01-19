@@ -6,7 +6,6 @@ public class BoosterManager : MonoBehaviour
     public static BoosterManager Instance;
 
     TileGridGenerator tileGridGenerator;
-    LevelManager levelManager;
 
     public Tile previousTile;
 
@@ -21,7 +20,6 @@ public class BoosterManager : MonoBehaviour
     private void Start()
     {
         tileGridGenerator = GameManager.Instance.tileGridGenerator;
-        levelManager = GameManager.Instance.levelManager;
     }
 
     public void MagnetBooster()
@@ -63,13 +61,9 @@ public class BoosterManager : MonoBehaviour
         }
     }
 
-    public IEnumerator ShuffleLevelBooster()
+    public void ShuffleLevelBooster()
     {
-        bool tileCleared = tileGridGenerator.ClearGrid();
-
-        yield return new WaitUntil(() => tileCleared);
-
-        levelManager.GenerateLevel(tileGridGenerator);
+        StartCoroutine(GameManager.Instance.ReloadLevel());
     }
 
     public void Undo()

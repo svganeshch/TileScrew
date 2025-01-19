@@ -23,6 +23,8 @@ public class InputHandler : MonoBehaviour
 
     private void TouchPress(InputAction.CallbackContext ctx)
     {
+        if (GameManager.currentGameState == GameState.Paused) return;
+
         Vector2 touchPosition = touchPositionAction.ReadValue<Vector2>();
 
         //Debug.Log("touch tap pos : " + touchPosition);

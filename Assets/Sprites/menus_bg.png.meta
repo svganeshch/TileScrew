@@ -1,0 +1,336 @@
+fileFormatVersion: 2
+guid: ad0c427259ce7744186b26e44fa09527
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: menus_bg
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 144
+        width: 765
+        height: 582
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5932e45eeafe444c9c1b543e48ceda4
+      internalID: 1639663715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: menus_bg_popup
+      rect:
+        serializedVersion: 2
+        x: 1176
+        y: 144
+        width: 534
+        height: 540
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 118b70d86465c9943a85940b87d2c551
+      internalID: 1833339956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: menus_btn_red
+      rect:
+        serializedVersion: 2
+        x: 1122
+        y: 1121
+        width: 205
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12bceccafdc2eb7418e1d6876951e0b7
+      internalID: -957845472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: menus_btn_yellow
+      rect:
+        serializedVersion: 2
+        x: 1122
+        y: 1043
+        width: 204
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 652b9f916a9de3e4c96dd4821213bd49
+      internalID: 361979669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: menus_btn_green
+      rect:
+        serializedVersion: 2
+        x: 1122
+        y: 964
+        width: 204
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0ee64221eb086d48ab9a2464cbd7213
+      internalID: -258516189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: menus_btn_blue
+      rect:
+        serializedVersion: 2
+        x: 1122
+        y: 885
+        width: 204
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49260f834a207d841bc9867f1d8ef104
+      internalID: 744222860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3f9eb04993a2bab49a161b0870e2fc0c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      menus_bg: 1639663715
+      menus_bg_10: -239252961
+      menus_bg_11: -812966456
+      menus_bg_12: 542439517
+      menus_bg_13: 1726710522
+      menus_bg_14: -377386318
+      menus_bg_15: -1838616113
+      menus_bg_18: -1263816734
+      menus_bg_19: 1557012382
+      menus_bg_2: 1053142593
+      menus_bg_20: -1324468630
+      menus_bg_21: 645748376
+      menus_bg_22: -118622591
+      menus_bg_23: 1948777272
+      menus_bg_24: -1422314789
+      menus_bg_25: 58458996
+      menus_bg_26: -1469585470
+      menus_bg_27: 1646517993
+      menus_bg_28: 1154517003
+      menus_bg_29: 957021295
+      menus_bg_3: -740402180
+      menus_bg_30: -1002698404
+      menus_bg_31: -1598160385
+      menus_bg_32: -1357024347
+      menus_bg_33: -726566916
+      menus_bg_34: -2056557369
+      menus_bg_35: -994138983
+      menus_bg_36: 2052908390
+      menus_bg_37: 863638520
+      menus_bg_38: 1935308709
+      menus_bg_39: 608615928
+      menus_bg_40: 1003797839
+      menus_bg_42: 2037604529
+      menus_bg_43: -268566676
+      menus_bg_44: -422501670
+      menus_bg_45: -229503013
+      menus_bg_46: -983611630
+      menus_bg_47: 1921509087
+      menus_bg_49: 756331739
+      menus_bg_5: -1614477379
+      menus_bg_50: 633809305
+      menus_bg_51: 1705723291
+      menus_bg_52: -2105514700
+      menus_bg_53: -1592592967
+      menus_bg_54: 236934802
+      menus_bg_55: -2028728922
+      menus_bg_56: -2004134742
+      menus_bg_57: 426610161
+      menus_bg_58: -2027051989
+      menus_bg_59: -413453832
+      menus_bg_6: -239552631
+      menus_bg_60: 1572730843
+      menus_bg_61: -1348148461
+      menus_bg_62: -332380814
+      menus_bg_63: 636612792
+      menus_bg_64: -514272102
+      menus_bg_65: -986709403
+      menus_bg_66: 268362246
+      menus_bg_67: -1738903975
+      menus_bg_68: 346861182
+      menus_bg_69: 1825269938
+      menus_bg_7: -1664032297
+      menus_bg_70: 767958952
+      menus_bg_71: -663217539
+      menus_bg_72: 360618444
+      menus_bg_8: 1151945496
+      menus_bg_9: -290291897
+      menus_bg_options: -944815990
+      menus_bg_popup: 1833339956
+      menus_bg_settings: 25198964
+      menus_btn_blue: 744222860
+      menus_btn_green: -258516189
+      menus_btn_red: -957845472
+      menus_btn_yellow: 361979669
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
