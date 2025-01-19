@@ -9,6 +9,8 @@ public class GameScreenUIEvents : MonoBehaviour
     private Button magnetButton;
     private Button shuffleButton;
     private Button undoButton;
+
+    private Label level;
     private Label fps;
 
     private void Awake()
@@ -27,12 +29,20 @@ public class GameScreenUIEvents : MonoBehaviour
         undoButton = document.rootVisualElement.Q("UndoButton") as Button;
         undoButton.RegisterCallback<ClickEvent>(OnUndoButtonClick);
 
+        level = document.rootVisualElement.Q("level") as Label;
         fps = document.rootVisualElement.Q("fps") as Label;
+
+        UIManager.Instance.onLevelChangeEvent.AddListener(SetLevelText);
     }
 
     private void Update()
     {
         fps.text = FPSCounter.Instance.smoothFps.ToString("F2");
+    }
+
+    public void SetLevelText(string levelNum)
+    {
+        level.text = levelNum;
     }
 
     private void OnNextButtonClick(ClickEvent clickEvent)

@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 
     public UIDocument gameOverScreen;
 
+    public UnityEvent<string> onLevelChangeEvent;
     public UnityEvent gameOverEvent;
 
     private void Awake()
@@ -16,12 +17,13 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        onLevelChangeEvent = new UnityEvent<string>();
+        gameOverEvent = new UnityEvent();
     }
 
     private void Start()
     {
-        gameOverEvent = new UnityEvent();
-
         gameOverEvent.AddListener(OnGameOverEvent);
     }
 
