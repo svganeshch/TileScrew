@@ -133,13 +133,11 @@ public class TileGridGenerator : MonoBehaviour
             // Increase layer size randomly and skip this for adjustment layer to not mess with validation
             if (!isAdjustmentLayer)
             {
-                bool increaseRow = Utils.GetRandomBool();
-                bool increaseColumn = Utils.GetRandomBool();
+                layerRows = levelData.increasedRows ? Mathf.Min(previousLayerRow + 1, GameManager.Instance.levelManager.MAX_ROWS)
+                            : layerRows;
 
-                layerRows = increaseRow ? Mathf.Min(previousLayerRow + 1, GameManager.Instance.levelManager.MAX_ROWS)
-                                            : layerRows;
-                layerColumns = increaseColumn ? Mathf.Min(previousLayerColumn + 1, GameManager.Instance.levelManager.MAX_COLUMNS)
-                                            : layerColumns;
+                layerColumns = levelData.increasedColumns ? Mathf.Min(previousLayerColumn + 1, GameManager.Instance.levelManager.MAX_COLUMNS)
+                               : layerColumns;
 
                 skipCellsInLayer = Utils.GetRandomBool(0.5f);
 
@@ -199,14 +197,17 @@ public class TileGridGenerator : MonoBehaviour
         tileObj.SetActive(false);
         tileObj.name = $"Tile_{cell.x}_{cell.y}";
 
-        bool isIceTile = Utils.GetRandomBool();
-
-        if (isIceTile)
+        if (levelData.hasIceTiles)
         {
-            if (iceTileCount <= maxIceTileCount)
+            bool isIceTile = Utils.GetRandomBool();
+
+            if (isIceTile)
             {
-                tile.tileIceManager.EnableIce();
-                iceTileCount++;
+                if (iceTileCount <= maxIceTileCount)
+                {
+                    tile.tileIceManager.EnableIce();
+                    iceTileCount++;
+                }
             }
         }
 

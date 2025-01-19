@@ -11,6 +11,11 @@ public class LevelData : ScriptableObject
     public bool reducedRows = false;
     public bool reducedColumns = false;
 
+    public bool increasedRows = false;
+    public bool increasedColumns = false;
+
+    public bool hasIceTiles = false;
+
     public GameObject tilePrefab;
 
     [HideInInspector] public List<Vector2Int> customGridCells = new List<Vector2Int>();
