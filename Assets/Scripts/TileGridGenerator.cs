@@ -130,8 +130,8 @@ public class TileGridGenerator : MonoBehaviour
             iceTileCount = 1;
             maxIceTileCount = 0;
 
-            // Increase layer size randomly and skip this for adjustment layer to not mess with validation
-            if (!isAdjustmentLayer)
+            // Increase layer size randomly and skip this for adjustment and custom layers to not mess with validation
+            if (!isAdjustmentLayer || !isCustomLevel)
             {
                 layerRows = levelData.increasedRows ? Mathf.Min(previousLayerRow + 1, GameManager.Instance.levelManager.MAX_ROWS)
                             : layerRows;
