@@ -3,4 +3,9 @@
     height: 150px;
     background-color: rgba(255, 255, 255, 0);
     background-image: url("project://database/Assets/Sprites/tile.png?fileID=21300000&guid=13f5fc628008f494aae34ad695fd1683&type=3#tile");
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
 }
