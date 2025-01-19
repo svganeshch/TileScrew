@@ -53,6 +53,7 @@ public class BoosterManager : MonoBehaviour
                 if ( layerTile.screw.ScrewColor == randomTile.screw.ScrewColor)
                 {
                     layerTile.SetTileState(true);
+                    layerTile.tileIceManager.isIceTile = false;
                     layerTile.OnTouch();
 
                     count++;
