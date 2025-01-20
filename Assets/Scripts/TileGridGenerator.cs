@@ -107,7 +107,7 @@ public class TileGridGenerator : MonoBehaviour
         if (isCustomLevel)
         {
             (levelRows, levelColumns) = Utils.GetGridDimensions(levelData.customGridCells);
-            levelLayers = 1;
+            levelLayers = 0;
         }
 
         if (levelRows == 0 && levelColumns == 0) return;
