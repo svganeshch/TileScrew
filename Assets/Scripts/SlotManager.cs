@@ -68,6 +68,8 @@ public class SlotManager : MonoBehaviour
 
             if (willCauseMatch)
             {
+                BoosterManager.Instance.previousTile = null;
+
                 yield return new WaitUntil(() => HandleMatchingSlotGroupsCallback());
                 yield return StartCoroutine(RearrangeSlots());
             }
