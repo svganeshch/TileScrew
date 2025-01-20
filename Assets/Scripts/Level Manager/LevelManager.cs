@@ -81,9 +81,9 @@ public class LevelManager : MonoBehaviour
 
         // Gradually increase the range of rows and columns with the level
         // Increment min rows and columns every level
-        int minRows = Mathf.Clamp(currentLevel, 2, MAX_ROWS);
+        int minRows = Mathf.Clamp(currentLevel, 4, MAX_ROWS);
         int maxRows = Mathf.Clamp(currentLevel, minRows, MAX_ROWS);
-        int minColumns = Mathf.Clamp(currentLevel, 2, MAX_COLUMNS);
+        int minColumns = Mathf.Clamp(currentLevel, 4, MAX_COLUMNS);
         int maxColumns = Mathf.Clamp(currentLevel, minColumns, MAX_COLUMNS);
 
         // Generate rows and columns within the dynamic range
