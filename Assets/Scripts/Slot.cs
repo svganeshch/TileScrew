@@ -29,6 +29,8 @@ public class Slot : MonoBehaviour, ISlot
             transistionSpeed = moveSpeed;
         }
 
+        screw.transform.parent = transform;
+
         Tween moveTween = screw.transform.DOMove(transform.position, transistionSpeed)
                                 .SetEase(Ease.InQuad)
                                 .OnComplete(() => OnCompleteCallback?.Invoke());
