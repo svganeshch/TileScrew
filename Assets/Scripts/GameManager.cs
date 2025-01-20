@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public BackgroundManager backgroundManager;
     public LevelManager levelManager;
     public SlotManager slotManager;
     public TileGridGenerator tileGridGenerator;

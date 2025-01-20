@@ -134,6 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 183648611}
   - component: {fileID: 183648612}
+  - component: {fileID: 183648613}
   m_Layer: 0
   m_Name: bg_1920_1080
   m_TagString: Untagged
@@ -200,17 +201,34 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -100
-  m_Sprite: {fileID: 21300000, guid: ab94d0038ceed814cb9e3534540de59f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d1082eb6089efc64e9f2aab37daad09e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 11.25, y: 20}
+  m_Size: {x: 13.33, y: 20}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &183648613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183648610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13632cd31b384a498059ffbba559a34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgSprites:
+  - {fileID: 21300000, guid: d1082eb6089efc64e9f2aab37daad09e, type: 3}
+  - {fileID: 21300000, guid: a4f1e33468bb3cb43a125d6eaf353df2, type: 3}
+  - {fileID: 21300000, guid: 8bf1171dbdb5e37429616305837a853e, type: 3}
+  - {fileID: 21300000, guid: b1a1bb651edc0804a82051c551acc2bc, type: 3}
 --- !u!1 &223186434
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,6 +970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3417c2e88aafca9489e1654525b9304a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundManager: {fileID: 183648613}
   levelManager: {fileID: 1601212474}
   slotManager: {fileID: 341879433}
   tileGridGenerator: {fileID: 1418014531}
