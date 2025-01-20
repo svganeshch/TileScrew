@@ -17,6 +17,8 @@ public class SlotManager : MonoBehaviour
     private Queue<Func<IEnumerator>> screwQueue = new Queue<Func<IEnumerator>>();
     private bool isProcessingQueue = false;
 
+    private bool isExtraSlotEnabled = false;
+
     private void Awake()
     {
         slots = GetComponentsInChildren<Slot>(includeInactive: true).ToList();
@@ -158,10 +160,21 @@ public class SlotManager : MonoBehaviour
 
         for (int i = 0; i < slots.Count; i++)
         {
+            if (i == slots.Count - 1)
+            {
+                if (!isExtraSlotEnabled) continue;
+            }
+
             if (slots[i].slotScrew == null)
             {
                 for (int j = i + 1; j < slots.Count; j++)
                 {
+
+                    if (j == slots.Count - 1)
+                    {
+                        if (!isExtraSlotEnabled) continue;
+                    }
+
                     if (slots[j].slotScrew != null)
                     {
                         Tween rearrangeTween = slots[i].SetSlotPositionTween(slots[j].slotScrew, true);
@@ -196,6 +209,8 @@ public class SlotManager : MonoBehaviour
 
     public void EnableExtraSlot()
     {
+        isExtraSlotEnabled = true;
+
         var extraSlot = slots[^1];
 
         extraSlot.gameObject.SetActive(true);
@@ -206,12 +221,17 @@ public class SlotManager : MonoBehaviour
 
     public bool ClearAllSlots()
     {
-        foreach (var slot in slots)
+        for (int i = 0; i < slots.Count; i++)
         {
-            if (slot.slotScrew != null)
+            if (i == slots.Count - 1)
             {
-                Destroy(slot.slotScrew.gameObject);
-                slot.slotScrew = null;
+                if (!isExtraSlotEnabled) continue;
+            }
+
+            if (slots[i].slotScrew != null)
+            {
+                Destroy(slots[i].slotScrew.gameObject);
+                slots[i].slotScrew = null;
             }
         }
 
