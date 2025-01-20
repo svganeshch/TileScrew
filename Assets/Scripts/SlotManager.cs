@@ -18,7 +18,10 @@ public class SlotManager : MonoBehaviour
 
     private void Awake()
     {
-        slots = GetComponentsInChildren<Slot>().ToList();
+        slots = GetComponentsInChildren<Slot>(includeInactive: true).ToList();
+
+        var tempScrew = new Screw();
+        slots[^1].slotScrew = tempScrew;
     }
 
     public void EnqueueScrew(Screw screw, Action OnCompleteCallback = null)
@@ -186,6 +189,16 @@ public class SlotManager : MonoBehaviour
         matchingSlotIndexs.Clear();
 
         return true;
+    }
+
+    public void EnableExtraSlot()
+    {
+        var extraSlot = slots[^1];
+
+        extraSlot.gameObject.SetActive(true);
+        extraSlot.slotScrew = null;
+
+        transform.position = new Vector3(-0.5f, transform.position.y, transform.position.z);
     }
 
     public bool ClearAllSlots()

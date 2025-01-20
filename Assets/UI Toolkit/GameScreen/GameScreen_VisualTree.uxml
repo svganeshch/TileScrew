@@ -21,7 +21,7 @@
         <engine:Button name="UndoButton" class="booster-button">
             <engine:VisualElement name="Sprite" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/arrow.png?fileID=21300000&amp;guid=0a82c7de81732ce408e94de2ccaebccf&amp;type=3#arrow&quot;); width: auto; height: auto; align-items: auto; justify-content: flex-start; align-self: auto; align-content: auto; background-size: 69% 69%; -unity-background-image-tint-color: rgb(0, 172, 255); rotate: 0;" />
         </engine:Button>
-        <engine:Button name="ExtraSlotButton" class="booster-button">
+        <engine:Button name="DrillSlotButton" class="booster-button">
             <engine:VisualElement name="Sprite" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Sprites/hand_drill.png?fileID=21300000&amp;guid=769dab117f59150439133f4b7817defd&amp;type=3#hand_drill&quot;); width: auto; height: auto; align-items: auto; justify-content: flex-start; align-self: auto; align-content: auto; background-size: 69% 69%;" />
         </engine:Button>
     </engine:VisualElement>

@@ -76,4 +76,9 @@ public class BoosterManager : MonoBehaviour
             previousTile = null;
         }
     }
+
+    public void DrillExtraSlot()
+    {
+        GameManager.Instance.slotManager.EnableExtraSlot();
+    }
 }

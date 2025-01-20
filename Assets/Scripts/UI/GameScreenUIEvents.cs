@@ -9,6 +9,7 @@ public class GameScreenUIEvents : MonoBehaviour
     private Button magnetButton;
     private Button shuffleButton;
     private Button undoButton;
+    private Button drillSlotButton;
 
     private Label level;
     private Label fps;
@@ -28,6 +29,9 @@ public class GameScreenUIEvents : MonoBehaviour
 
         undoButton = document.rootVisualElement.Q("UndoButton") as Button;
         undoButton.RegisterCallback<ClickEvent>(OnUndoButtonClick);
+
+        drillSlotButton = document.rootVisualElement.Q("DrillSlotButton") as Button;
+        drillSlotButton.RegisterCallback<ClickEvent>(OnDrillSlotButtonClick);
 
         level = document.rootVisualElement.Q("level") as Label;
         fps = document.rootVisualElement.Q("fps") as Label;
@@ -63,5 +67,10 @@ public class GameScreenUIEvents : MonoBehaviour
     private void OnUndoButtonClick(ClickEvent clickEvent)
     {
         BoosterManager.Instance.Undo();
+    }
+
+    private void OnDrillSlotButtonClick(ClickEvent clickEvent)
+    {
+        BoosterManager.Instance.DrillExtraSlot();
     }
 }
