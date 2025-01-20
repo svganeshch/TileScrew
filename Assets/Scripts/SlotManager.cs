@@ -1,4 +1,5 @@
 using DG.Tweening;
+using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +21,9 @@ public class SlotManager : MonoBehaviour
     {
         slots = GetComponentsInChildren<Slot>(includeInactive: true).ToList();
 
-        var tempScrew = new Screw();
+        GameObject tempScrewObject = new GameObject("TempScrew");
+        var tempScrew = tempScrewObject.AddComponent<Screw>();
+
         slots[^1].slotScrew = tempScrew;
     }
 
