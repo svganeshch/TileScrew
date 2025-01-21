@@ -16,3 +16,9 @@ public enum TileGridState
     Generating,
     Done
 }
+
+public enum SlotManagerState
+{
+    Matching,
+    Done
+}

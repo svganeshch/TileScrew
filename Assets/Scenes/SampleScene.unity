@@ -226,9 +226,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgSprites:
   - {fileID: 21300000, guid: d1082eb6089efc64e9f2aab37daad09e, type: 3}
-  - {fileID: 21300000, guid: a4f1e33468bb3cb43a125d6eaf353df2, type: 3}
-  - {fileID: 21300000, guid: 8bf1171dbdb5e37429616305837a853e, type: 3}
-  - {fileID: 21300000, guid: b1a1bb651edc0804a82051c551acc2bc, type: 3}
 --- !u!1 &223186434
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008577b97504d194c9cb093c125db240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentSlotManagerState: 0
   slots: []
 --- !u!1001 &403262067
 PrefabInstance:
@@ -1101,7 +1099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &877193096
 Transform:
   m_ObjectHideFlags: 0

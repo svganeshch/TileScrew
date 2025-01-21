@@ -6,6 +6,7 @@ public class BoosterManager : MonoBehaviour
     public static BoosterManager Instance;
 
     TileGridGenerator tileGridGenerator;
+    SlotManager slotManager;
 
     public Tile previousTile;
 
@@ -20,16 +21,20 @@ public class BoosterManager : MonoBehaviour
     private void Start()
     {
         tileGridGenerator = GameManager.Instance.tileGridGenerator;
+        slotManager = GameManager.Instance.slotManager;
     }
 
     public void MagnetBooster()
     {
+        if (slotManager.currentSlotManagerState == SlotManagerState.Matching) return;
+
         var tiles = tileGridGenerator.tiles;
 
         var randomLayerTiles = tiles[Random.Range(0, tiles.Count - 1)].Value;
 
         var randomTile = randomLayerTiles[Random.Range(0, randomLayerTiles.Count - 1)];
         randomTile.SetTileState(true);
+        randomTile.tileIceManager.isIceTile = false;
         randomTile.OnTouch();
 
         int count = 1;

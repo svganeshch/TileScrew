@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class SlotManager : MonoBehaviour
 {
+    public SlotManagerState currentSlotManagerState;
+
     public List<Slot> slots;
     private List<int> matchingSlotIndexs = new List<int>();
 
@@ -21,6 +23,8 @@ public class SlotManager : MonoBehaviour
 
     private void Awake()
     {
+        currentSlotManagerState = SlotManagerState.Done;
+
         slots = GetComponentsInChildren<Slot>(includeInactive: true).ToList();
 
         GameObject tempScrewObject = new GameObject("TempScrew");
@@ -58,6 +62,8 @@ public class SlotManager : MonoBehaviour
 
     private IEnumerator SetScrewSlot(Screw screw, Action OnCompleteCallback)
     {
+        currentSlotManagerState = SlotManagerState.Matching;
+
         int sameColorIndex = slots.FindLastIndex(s => s.slotScrew != null && s.slotScrew.ScrewColor == screw.ScrewColor);
 
         if (sameColorIndex != -1)
@@ -102,6 +108,8 @@ public class SlotManager : MonoBehaviour
         }
 
         OnCompleteCallback?.Invoke();
+
+        currentSlotManagerState = SlotManagerState.Done;
     }
 
     private IEnumerator ShiftSlots(int insertIndex)
