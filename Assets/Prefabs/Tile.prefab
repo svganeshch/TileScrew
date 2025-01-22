@@ -593,8 +593,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disabledColor: {r: 0.6627451, g: 0.6627451, b: 0.6627451, a: 1}
-  screw: {fileID: 0}
-  tileIceManager: {fileID: 0}
+  screw: {fileID: 3375746950457394218}
+  tileIceManager: {fileID: 3229066648084292647}
 --- !u!65 &5559162075364878141
 BoxCollider:
   m_ObjectHideFlags: 0

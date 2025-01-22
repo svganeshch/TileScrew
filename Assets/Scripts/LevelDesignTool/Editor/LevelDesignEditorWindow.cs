@@ -106,7 +106,7 @@ public class LevelDesignEditorWindow : EditorWindow
             }
         }
 
-        string path = $"Assets/Data/Level Data/{fileName}.asset";
+        string path = $"Assets/Data/Custom Level Data/{fileName}.asset";
 
         // Check if overwriting or creating a new file
         if (System.IO.File.Exists(path) && (loadedData == null || AssetDatabase.GetAssetPath(loadedData) != path))

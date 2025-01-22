@@ -5,6 +5,8 @@ public class Utils
 {
     public static void ShuffleList<T>(ref List<T> list)
     {
+        Random.InitState((int)System.DateTime.Now.Ticks);
+
         for (int i = list.Count - 1; i > 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);

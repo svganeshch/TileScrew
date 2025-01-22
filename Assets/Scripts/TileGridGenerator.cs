@@ -17,6 +17,8 @@ public class TileGridGenerator : MonoBehaviour
 
     public GameObject tileLayerPrefab;
     public LayerMask tileLayer;
+
+    public LevelManager levelManager;
  
     public float tileSpacing = 0.1f;
     public float layerSpacing = -0.25f;
@@ -93,6 +95,8 @@ public class TileGridGenerator : MonoBehaviour
 
         gridPositions.Clear();
 
+        Random.InitState(levelData.seed);
+
         int levelRows = levelData.rows;
         int levelColumns = levelData.columns;
         int levelLayers = levelData.layers;
@@ -131,7 +135,7 @@ public class TileGridGenerator : MonoBehaviour
             // Increase layer size randomly, and skip this for adjustment and custom layers to not mess with validation
             if (!isAdjustmentLayer && !isCustomLevel)
             {
-                if (GameManager.Instance.levelManager.CalculateRandomLayerChance())
+                if (levelManager.CalculateRandomLayerChance())
                 {
                     // Reduce
                     layerRows = Mathf.Max(1, previousLayerRow - 1);
@@ -141,9 +145,9 @@ public class TileGridGenerator : MonoBehaviour
                 else
                 {
                     //Increase
-                    layerRows = Mathf.Min(previousLayerRow + 1, GameManager.Instance.levelManager.MAX_ROWS);
+                    layerRows = Mathf.Min(previousLayerRow + 1, LevelManagerTool.MAX_ROWS);
 
-                    layerColumns = Mathf.Min(previousLayerColumn + 1, GameManager.Instance.levelManager.MAX_COLUMNS);
+                    layerColumns = Mathf.Min(previousLayerColumn + 1, LevelManagerTool.MAX_COLUMNS);
                 }
 
                 skipCellsInLayer = Utils.GetRandomBool(0.5f);
@@ -332,7 +336,7 @@ public class TileGridGenerator : MonoBehaviour
 
     private List<Color> GenerateScrewColorGroups()
     {
-        var colorData = GameManager.Instance.levelManager.colorData;
+        var colorData = levelManager.colorData;
         List<Color> screwColors = new List<Color>();
         int totalTiles = GetTotalTileCount();
         int tileGroups = totalTiles / 3;

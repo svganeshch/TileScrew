@@ -1598,6 +1598,7 @@ MonoBehaviour:
   tileLayer:
     serializedVersion: 2
     m_Bits: 64
+  levelManager: {fileID: 1601212474}
   tileSpacing: 0.01
   layerSpacing: -0.25
 --- !u!1 &1539665086
@@ -1664,6 +1665,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dec51388f1b7a44bbed588769afa70a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1555583264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1555583266}
+  - component: {fileID: 1555583265}
+  m_Layer: 0
+  m_Name: LevelManagerTool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1555583265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555583264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b980ad467c9980409ccd5836dc22f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelManager: {fileID: 1601212474}
+  tileGridGenerator: {fileID: 1418014531}
+  numberOfLevelsToProduce: 40
+  loadLevelData: {fileID: 0}
+  currentLevelNum: 51
+  tilesPrefab:
+  - {fileID: 4161647048256823549, guid: b70657e4d0353c74cad119a184b30b20, type: 3}
+--- !u!4 &1555583266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555583264}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1568815871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,9 +1800,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff959f23967b21d4eacdfda3db84ca57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_ROWS: 8
-  MAX_COLUMNS: 8
-  MAX_LAYERS: 6
   customLevels:
   - {fileID: 11400000, guid: 46b2eecd75ed8cd48b4f3796b53e909a, type: 2}
   - {fileID: 11400000, guid: f7702013e66a63648a13bd5292da326e, type: 2}
@@ -1775,9 +1824,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 62d5e59f214844f4f9cbf22133683f1d, type: 2}
   - {fileID: 11400000, guid: cbe8b30c3ded8164bac650a4c0d92416, type: 2}
   - {fileID: 11400000, guid: dfed185de3a39e34fb028ad080bd5404, type: 2}
-  tilesPrefab:
-  - {fileID: 4161647048256823549, guid: b70657e4d0353c74cad119a184b30b20, type: 3}
-  currentLevel: 1
+  currentLevel: 21
   currentLevelData: {fileID: 0}
 --- !u!1001 &1601491185
 PrefabInstance:
@@ -2093,3 +2140,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1174774529}
   - {fileID: 1568815872}
+  - {fileID: 1555583266}
