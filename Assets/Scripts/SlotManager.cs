@@ -12,6 +12,7 @@ public class SlotManager : MonoBehaviour
 
     public List<Slot> slots;
     private List<int> matchingSlotIndexs = new List<int>();
+    private List<Screw> screws = new List<Screw>();
 
     private Sequence shiftSequence;
     private Sequence rearrangeSequence;
@@ -35,6 +36,8 @@ public class SlotManager : MonoBehaviour
 
     public void EnqueueScrew(Screw screw, Action OnCompleteCallback = null)
     {
+        screws.Add(screw);
+
         screwQueue.Enqueue(() => SetScrewSlot(screw, OnCompleteCallback));
         ProcessScrewQueue();
     }
@@ -70,6 +73,9 @@ public class SlotManager : MonoBehaviour
         {
             int insertIndex = sameColorIndex + 1;
 
+            if (insertIndex >= 8)
+                goto SlotsCheck;
+
             if (slots[insertIndex].slotScrew != null)
             {
                 yield return StartCoroutine(ShiftSlots(insertIndex));
@@ -101,11 +107,12 @@ public class SlotManager : MonoBehaviour
             }
         }
 
-        if (slots.All(s => s.slotScrew != null))
-        {
-            UIManager.Instance.gameOverEvent.Invoke();
-            Debug.Log("All slots filled");
-        }
+        SlotsCheck:
+            if (slots.All(s => s.slotScrew != null))
+            {
+                UIManager.Instance.gameOverEvent.Invoke();
+                Debug.Log("All slots filled");
+            }
 
         OnCompleteCallback?.Invoke();
 
@@ -240,8 +247,27 @@ public class SlotManager : MonoBehaviour
             {
                 Destroy(slots[i].slotScrew.gameObject);
                 slots[i].slotScrew = null;
+
+                if (screws.Contains(slots[i].slotScrew))
+                {
+                    screws.Remove(slots[i].slotScrew);
+                }
             }
         }
+
+        // Clear any remaining screw references that didn't make into slots
+        foreach (var screw in screws)
+        {
+            try
+            {
+                Destroy(screw.gameObject);
+            }
+            catch
+            {
+                Debug.Log("screw ref no longer exists!!");
+            }
+        }
+        screws.Clear();
 
         return true;
     }
