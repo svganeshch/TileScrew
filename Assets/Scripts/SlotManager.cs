@@ -10,6 +10,7 @@ public class SlotManager : MonoBehaviour
 {
     public SlotManagerState currentSlotManagerState;
 
+    public Slot extraSlot;
     public List<Slot> slots;
     private List<int> matchingSlotIndexs = new List<int>();
     private List<Screw> screws = new List<Screw>();
@@ -20,18 +21,11 @@ public class SlotManager : MonoBehaviour
     private Queue<Func<IEnumerator>> screwQueue = new Queue<Func<IEnumerator>>();
     private bool isProcessingQueue = false;
 
-    private bool isExtraSlotEnabled = false;
-
     private void Awake()
     {
         currentSlotManagerState = SlotManagerState.Done;
 
-        slots = GetComponentsInChildren<Slot>(includeInactive: true).ToList();
-
-        GameObject tempScrewObject = new GameObject("TempScrew");
-        var tempScrew = tempScrewObject.AddComponent<Screw>();
-
-        slots[^1].slotScrew = tempScrew;
+        slots = GetComponentsInChildren<Slot>().ToList();
     }
 
     public void EnqueueScrew(Screw screw, Action OnCompleteCallback = null)
@@ -73,7 +67,7 @@ public class SlotManager : MonoBehaviour
         {
             int insertIndex = sameColorIndex + 1;
 
-            if (insertIndex >= 8)
+            if (insertIndex >= slots.Count)
                 goto SlotsCheck;
 
             if (slots[insertIndex].slotScrew != null)
@@ -175,21 +169,10 @@ public class SlotManager : MonoBehaviour
 
         for (int i = 0; i < slots.Count; i++)
         {
-            if (i == slots.Count - 1)
-            {
-                if (!isExtraSlotEnabled) continue;
-            }
-
             if (slots[i].slotScrew == null)
             {
                 for (int j = i + 1; j < slots.Count; j++)
                 {
-
-                    if (j == slots.Count - 1)
-                    {
-                        if (!isExtraSlotEnabled) continue;
-                    }
-
                     if (slots[j].slotScrew != null)
                     {
                         Tween rearrangeTween = slots[i].SetSlotPositionTween(slots[j].slotScrew, true);
@@ -224,10 +207,7 @@ public class SlotManager : MonoBehaviour
 
     public void EnableExtraSlot()
     {
-        isExtraSlotEnabled = true;
-
-        var extraSlot = slots[^1];
-
+        slots.Add(extraSlot);
         extraSlot.gameObject.SetActive(true);
         extraSlot.slotScrew = null;
 
@@ -238,11 +218,6 @@ public class SlotManager : MonoBehaviour
     {
         for (int i = 0; i < slots.Count; i++)
         {
-            if (i == slots.Count - 1)
-            {
-                if (!isExtraSlotEnabled) continue;
-            }
-
             if (slots[i].slotScrew != null)
             {
                 Destroy(slots[i].slotScrew.gameObject);

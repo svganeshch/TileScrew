@@ -594,6 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSlotManagerState: 0
+  extraSlot: {fileID: 2137115921}
   slots: []
 --- !u!1001 &403262067
 PrefabInstance:
@@ -2012,6 +2013,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9003154087567491865, guid: 0b31e65e3100f324a80c791aa766749b, type: 3}
   m_PrefabInstance: {fileID: 1216927625}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2137115921 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9022267361252380776, guid: 0b31e65e3100f324a80c791aa766749b, type: 3}
+  m_PrefabInstance: {fileID: 1216927625}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78109e210a0e9749b71525830adf6ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2140952577 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9003154087567491865, guid: 0b31e65e3100f324a80c791aa766749b, type: 3}

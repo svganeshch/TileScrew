@@ -29,15 +29,45 @@ public class BoosterManager : MonoBehaviour
         if (slotManager.currentSlotManagerState == SlotManagerState.Matching) return;
 
         var tiles = tileGridGenerator.tiles;
+        var slots = slotManager.slots;
 
-        var randomLayerTiles = tiles[Random.Range(0, tiles.Count - 1)].Value;
+        Color colorToPull = Color.black;
+        int emptySlotCount = 0;
+        int count = 0;
+        int tilesToPull = 0;
 
-        var randomTile = randomLayerTiles[Random.Range(0, randomLayerTiles.Count - 1)];
-        randomTile.SetTileState(true);
-        randomTile.tileIceManager.isIceTile = false;
-        randomTile.OnTouch();
+        for (int i = 0; i < slots.Count - 1; i++)
+        {
+            var firstScrew = slots[0].slotScrew;
+            var slotScrew = slots[i].slotScrew;
+            var nextScrew = slots[i + 1].slotScrew;
 
-        int count = 1;
+            if (slotScrew != null && nextScrew != null)
+            {
+                if (slotScrew.ScrewColor == nextScrew.ScrewColor)
+                {
+                    colorToPull = slots[i].slotScrew.ScrewColor;
+                    tilesToPull = 1;
+                    break;
+                }
+            }
+
+            if (firstScrew != null)
+            {
+                
+                colorToPull = firstScrew.ScrewColor;
+                tilesToPull = 2;
+            }
+
+            foreach (var slot in slots)
+            {
+                if (slot.slotScrew == null)
+                {
+                    emptySlotCount++;
+                }
+            }
+            if (emptySlotCount < tilesToPull) return;
+        }
 
         foreach ( var tileValuePair in tiles )
         {
@@ -45,17 +75,12 @@ public class BoosterManager : MonoBehaviour
 
             foreach ( var layerTile in layerTiles )
             {
-                if (count == 3)
+                if (count == tilesToPull)
                 {
                     return;
                 }
 
-                if (layerTile == randomTile)
-                {
-                    continue;
-                }
-
-                if ( layerTile.screw.ScrewColor == randomTile.screw.ScrewColor)
+                if ( layerTile.screw.ScrewColor == colorToPull)
                 {
                     layerTile.SetTileState(true);
                     layerTile.tileIceManager.isIceTile = false;
