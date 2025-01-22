@@ -1824,7 +1824,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 62d5e59f214844f4f9cbf22133683f1d, type: 2}
   - {fileID: 11400000, guid: cbe8b30c3ded8164bac650a4c0d92416, type: 2}
   - {fileID: 11400000, guid: dfed185de3a39e34fb028ad080bd5404, type: 2}
-  currentLevel: 21
+  currentLevel: 12
   currentLevelData: {fileID: 0}
 --- !u!1001 &1601491185
 PrefabInstance:

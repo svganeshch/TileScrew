@@ -101,9 +101,6 @@ public class TileGridGenerator : MonoBehaviour
         int levelColumns = levelData.columns;
         int levelLayers = levelData.layers;
 
-        int previousLayerRow = levelRows;
-        int previousLayerColumn = levelColumns;
-
         bool skipCellsInLayer = false;
 
         HashSet<Vector2Int> currentLayerCells = new HashSet<Vector2Int>(levelData.customGridCells);
@@ -115,6 +112,9 @@ public class TileGridGenerator : MonoBehaviour
         }
 
         if (levelRows == 0 && levelColumns == 0) return;
+
+        int previousLayerRow = levelRows;
+        int previousLayerColumn = levelColumns;
 
         for (int layer = 0; layer <= levelLayers; layer++)
         {
@@ -142,13 +142,13 @@ public class TileGridGenerator : MonoBehaviour
 
                     layerColumns = Mathf.Max(1, previousLayerColumn - 1);
                 }
-                else
-                {
-                    //Increase
-                    layerRows = Mathf.Min(previousLayerRow + 1, LevelManagerTool.MAX_ROWS);
+                //else
+                //{
+                //    //Increase
+                //    layerRows = Mathf.Min(previousLayerRow + 1, LevelManagerTool.MAX_ROWS);
 
-                    layerColumns = Mathf.Min(previousLayerColumn + 1, LevelManagerTool.MAX_COLUMNS);
-                }
+                //    layerColumns = Mathf.Min(previousLayerColumn + 1, LevelManagerTool.MAX_COLUMNS);
+                //}
 
                 skipCellsInLayer = Utils.GetRandomBool(0.5f);
             }
