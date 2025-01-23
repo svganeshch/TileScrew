@@ -16,10 +16,10 @@ public class BackgroundManager : MonoBehaviour
     private void Start()
     {
         UIManager.Instance.onLevelChangeEvent.AddListener(SetRandomBG);
-        SetRandomBG("");
+        SetRandomBG(0);
     }
 
-    public void SetRandomBG(string temp)
+    public void SetRandomBG(int temp)
     {
         var randomBgSprite = bgSprites[Random.Range(0, bgSprites.Length)];
 

@@ -44,9 +44,9 @@ public class GameScreenUIEvents : MonoBehaviour
         fps.text = FPSCounter.Instance.smoothFps.ToString("F2");
     }
 
-    public void SetLevelText(string levelNum)
+    public void SetLevelText(int levelNum)
     {
-        level.text = levelNum;
+        level.text = levelNum.ToString();
     }
 
     private void OnNextButtonClick(ClickEvent clickEvent)

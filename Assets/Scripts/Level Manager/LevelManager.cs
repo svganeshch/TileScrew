@@ -10,11 +10,6 @@ public class LevelManager : MonoBehaviour
     public int currentLevel = 1;
     public LevelData currentLevelData;
 
-    private void Awake()
-    {
-        UIManager.Instance.onLevelChangeEvent.Invoke(currentLevel.ToString());
-    }
-
     public void GenerateLevel(TileGridGenerator tileGridGenerator)
     {
         GameManager.currentGameState = GameState.Active;
@@ -84,7 +79,7 @@ public class LevelManager : MonoBehaviour
         currentLevel++;
         GenerateLevel(tileGridGenerator);
 
-        UIManager.Instance.onLevelChangeEvent.Invoke(currentLevel.ToString());
+        UIManager.Instance.onLevelChangeEvent.Invoke(currentLevel);
     }
 
     public bool CalculateRandomLayerChance()

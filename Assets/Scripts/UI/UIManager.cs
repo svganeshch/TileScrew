@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     public UIDocument gameOverScreen;
     public UIDocument levelDoneScreen;
 
-    public UnityEvent<string> onLevelChangeEvent;
+    public UnityEvent<int> onLevelChangeEvent;
     public UnityEvent onLevelDoneEvent;
     public UnityEvent gameOverEvent;
 
@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
 
-        onLevelChangeEvent = new UnityEvent<string>();
+        onLevelChangeEvent = new UnityEvent<int>();
         onLevelDoneEvent = new UnityEvent();
         gameOverEvent = new UnityEvent();
 

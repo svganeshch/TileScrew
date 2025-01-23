@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     public BackgroundManager backgroundManager;
     public LevelManager levelManager;
+    public SaveManager saveManager;
     public SlotManager slotManager;
     public TileGridGenerator tileGridGenerator;
 
@@ -31,6 +32,9 @@ public class GameManager : MonoBehaviour
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
         //Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
+
+        levelManager.currentLevel = saveManager.saveData.currentLevel;
+        UIManager.Instance.onLevelChangeEvent.Invoke(levelManager.currentLevel);
 
         levelManager.GenerateLevel(tileGridGenerator);
     }
