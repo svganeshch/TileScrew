@@ -9,6 +9,7 @@ public class BoosterManager : MonoBehaviour
     SlotManager slotManager;
 
     public Tile previousTile;
+    public bool extraSlotEnabled = false;
 
     private void Awake()
     {
@@ -119,6 +120,13 @@ public class BoosterManager : MonoBehaviour
 
     public void DrillExtraSlot()
     {
-        GameManager.Instance.slotManager.EnableExtraSlot();
+        slotManager.EnableExtraSlot();
+        extraSlotEnabled = true;
+    }
+
+    public void DisableExtraSlot()
+    {
+        slotManager.DisableExtraSlot();
+        extraSlotEnabled = false;
     }
 }

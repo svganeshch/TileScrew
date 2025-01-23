@@ -214,6 +214,14 @@ public class SlotManager : MonoBehaviour
         transform.position = new Vector3(-0.5f, transform.position.y, transform.position.z);
     }
 
+    public void DisableExtraSlot()
+    {
+        slots.Remove(extraSlot);
+        extraSlot.gameObject.SetActive(false);
+
+        transform.position = new Vector3(0, transform.position.y, transform.position.z);
+    }
+
     public bool ClearAllSlots()
     {
         for (int i = 0; i < slots.Count; i++)

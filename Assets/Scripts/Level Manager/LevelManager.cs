@@ -50,6 +50,12 @@ public class LevelManager : MonoBehaviour
         tileGridGenerator.GenerateScrews();
 
         StartCoroutine(tileGridGenerator.TileGridTweenAnimate());
+
+        // Disable extra slot if enabled in previous level
+        if (BoosterManager.Instance.extraSlotEnabled)
+        {
+            BoosterManager.Instance.DisableExtraSlot();
+        }
     }
 
     private void ValidateLevel(TileGridGenerator tileGridGenerator)
