@@ -1100,7 +1100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &877193096
 Transform:
   m_ObjectHideFlags: 0
@@ -1600,7 +1600,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   levelManager: {fileID: 1601212474}
-  tileSpacing: 0.01
+  tileSpacing: -0.135
   layerSpacing: -0.25
 --- !u!1 &1539665086
 GameObject:
