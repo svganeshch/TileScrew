@@ -66,6 +66,16 @@ public class BoosterManager : MonoBehaviour
                     emptySlotCount++;
                 }
             }
+
+            if (emptySlotCount == slots.Count)
+            {
+                var randomLayer = tiles[Random.Range(0, tiles.Count - 1)].Value;
+                var randomScrew = randomLayer[Random.Range(0, randomLayer.Count - 1)].screw;
+
+                colorToPull = randomScrew.ScrewColor;
+                tilesToPull = 3;
+            }
+            
             if (emptySlotCount < tilesToPull) return;
         }
 
