@@ -328,6 +328,7 @@ public class TileGridGenerator : MonoBehaviour
 
             foreach (var tile in tileList)
             {
+                //tile.SetTileColor(screwColors[colorIndex]);
                 tile.screw.SetColor(screwColors[colorIndex]);
                 colorIndex++;
             }

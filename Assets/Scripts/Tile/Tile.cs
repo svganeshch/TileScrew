@@ -16,6 +16,8 @@ public class Tile : MonoBehaviour, ITile, ITouch
 
     private int m_tileLayer = 0;
     private bool state = true;
+    
+    private Color defaultColor = Color.white;
 
     Sequence tileDropSequence;
 
@@ -34,11 +36,17 @@ public class Tile : MonoBehaviour, ITile, ITouch
         origTileScale = transform.localScale;
     }
 
+    public void SetTileColor(Color color)
+    {
+        spriteRenderer.color = color;
+        defaultColor = color;
+    }
+
     public void SetTileState(bool tileState)
     {
         if (tileState)
         {
-            spriteRenderer.color = Color.white;
+            spriteRenderer.color = defaultColor;
         }
         else
         {
