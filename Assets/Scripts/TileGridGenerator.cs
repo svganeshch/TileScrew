@@ -251,7 +251,9 @@ public class TileGridGenerator : MonoBehaviour
         foreach (var tile in layerTiles)
         {
             Vector3 tileBoxPos = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z + -0.16f);
-            Vector3 tileBoxScale = new Vector3(tile.transform.localScale.x, tile.transform.localScale.y, tile.transform.localScale.z * (Mathf.Abs(layerSpacing) + 0.1f)) * 0.85f;
+            
+            var tileSize = Vector3.Scale(tile.tileCollider.size, tile.transform.lossyScale);
+            Vector3 tileBoxScale = new Vector3(tileSize.x, tileSize.y, tileSize.z * (Mathf.Abs(layerSpacing) + 15f)) * 0.85f;
             Collider[] colliders = Physics.OverlapBox(tileBoxPos, tileBoxScale / 2, Quaternion.identity, tileLayer);
 
             foreach (Collider collider in colliders)
@@ -472,7 +474,8 @@ public class TileGridGenerator : MonoBehaviour
             foreach (var tile in tiles)
             {
                 Vector3 tileBoxPos = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z + -0.16f);
-                Vector3 tileBoxScale = new Vector3(tile.transform.localScale.x, tile.transform.localScale.y, tile.transform.localScale.z * (Mathf.Abs(layerSpacing) + 0.1f)) * 0.85f;
+                var tileSize = Vector3.Scale(tile.tileCollider.size, tile.transform.lossyScale);
+                Vector3 tileBoxScale = new Vector3(tileSize.x, tileSize.y, tileSize.z * (Mathf.Abs(layerSpacing) + 15f)) * 0.85f;
                 Gizmos.DrawWireCube(tileBoxPos, tileBoxScale);
             }
         }

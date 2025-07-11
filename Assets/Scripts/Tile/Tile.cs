@@ -8,7 +8,7 @@ public class Tile : MonoBehaviour, ITile, ITouch
     public Screw screw;
     public TileIceManager tileIceManager;
 
-    private Collider tileCollider;
+    public BoxCollider tileCollider;
     private SpriteRenderer spriteRenderer;
 
     private Vector3 origTilePosition;
@@ -17,7 +17,7 @@ public class Tile : MonoBehaviour, ITile, ITouch
     private int m_tileLayer = 0;
     private bool state = true;
     
-    private Color defaultColor = Color.white;
+    private Color defaultColor;
 
     Sequence tileDropSequence;
 
@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour, ITile, ITouch
 
     private void Awake()
     {
-        tileCollider = GetComponent<Collider>();
+        tileCollider = GetComponent<BoxCollider>();
         screw = GetComponentInChildren<Screw>();
         tileIceManager = GetComponentInChildren<TileIceManager>();
 
@@ -34,6 +34,8 @@ public class Tile : MonoBehaviour, ITile, ITouch
 
         origTilePosition = transform.position;
         origTileScale = transform.localScale;
+        
+        defaultColor = spriteRenderer.color;
     }
 
     public void SetTileColor(Color color)
@@ -82,7 +84,10 @@ public class Tile : MonoBehaviour, ITile, ITouch
         tileCollider.enabled = false;
         tileDropSequence = DOTween.Sequence();
 
-        tileDropSequence.Insert(0, transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f));
+        float targetScale = 1.75f;
+        Vector3 scaleDifference = transform.localScale * targetScale - transform.localScale;
+        
+        tileDropSequence.Insert(0, transform.DOScale(scaleDifference, 0.5f));
 
         tileDropSequence.Insert(0, transform.DOLocalRotate(new Vector3(0, 0, 360), 0.5f, RotateMode.FastBeyond360)
             .SetEase(Ease.Linear)
